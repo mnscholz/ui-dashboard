@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -10,20 +11,15 @@ import {
 
 import css from './DashboardHeader.css';
 
-export default function DashboardHeader ({ widgetOptions }) {
-  const renderWidgetMenu = ({ onToggle }) => {
-    return (
-      <DropdownMenu
-        data-role="menu"
-        onToggle={onToggle}
-      >
-        {widgetOptions.map(w => renderWidgetOption(w))}
-      </DropdownMenu>
-    );
-  };
+const propTypes = {
+  widgetOptions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    name: PropTypes.string
+  }))
+};
 
+export default function DashboardHeader({ widgetOptions }) {
   const renderWidgetOption = (widget) => {
-    console.log("widget: %o", widget)
     return (
       <Button
         buttonStyle="dropdownItem"
@@ -35,14 +31,29 @@ export default function DashboardHeader ({ widgetOptions }) {
           icon="plus-sign"
           size="small"
         >
-          <FormattedMessage id="ui-dashboard.dashboard.newWidget" values={{label: widget.label}}/>
+          <FormattedMessage id="ui-dashboard.dashboard.newWidget" values={{ label: widget.label }} />
         </Icon>
       </Button>
     );
-  }
+  };
+
+  // Diasbling here because eslint seems to think this is a component-level prop,
+  // when it is actually passed from Dropdown
+
+  // eslint-disable-next-line react/prop-types
+  const renderWidgetMenu = ({ onToggle }) => {
+    return (
+      <DropdownMenu
+        data-role="menu"
+        onToggle={onToggle}
+      >
+        {widgetOptions.map(w => renderWidgetOption(w))}
+      </DropdownMenu>
+    );
+  };
 
   return (
-    <div className={css.dashboardHeader} >
+    <div className={css.dashboardHeader}>
       <Dropdown
         buttonProps={{
           'buttonStyle': 'primary',
@@ -54,3 +65,5 @@ export default function DashboardHeader ({ widgetOptions }) {
     </div>
   );
 }
+
+DashboardHeader.propTypes = propTypes;

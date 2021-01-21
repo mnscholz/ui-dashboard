@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
   Badge,
@@ -19,70 +18,51 @@ const propTypes = {
 export default function Dashboard() {
   const widgetOptions = [
     {
-      name: "agreementList",
-      label: "Agreement list"
+      name: 'agreementList',
+      label: 'Agreement list'
     },
     {
-      name: "licenseList",
-      label: "License list"
+      name: 'licenseList',
+      label: 'License list'
     },
     {
-      name: "rss",
-      label: "RSS"
+      name: 'rss',
+      label: 'RSS'
     },
-  ]
+  ];
 
   const widgetList = [
     {
-      appName: "agreements",
-      title: "Agreement widget test",
+      appName: 'agreements',
+      title: 'Agreement widget test',
       weight: 0,
-      widgetName: "agreementList"
+      widgetName: 'agreementList'
     },
     {
-      appName: "licenses",
-      title: "License widget test",
+      appName: 'licenses',
+      title: 'License widget test',
       weight: 1,
-      widgetName: "licenseList",
+      widgetName: 'licenseList',
     },
     {
-      appName: "licenses",
-      title: "Test #3",
+      appName: 'licenses',
+      title: 'Test #3',
       weight: 2,
-      widgetName: "licenseList",
+      widgetName: 'licenseList',
     },
     {
-      appName: "licenses",
-      title: "Test #5",
+      appName: 'licenses',
+      title: 'Test #5',
       weight: 4,
-      widgetName: "licenseList",
+      widgetName: 'licenseList',
     },
     {
-      appName: "agreements",
-      title: "Test # 4",
+      appName: 'agreements',
+      title: 'Test # 4',
       weight: 3,
-      widgetName: "licenseList",
+      widgetName: 'licenseList',
     }
-  ]
-
-  const dashboardContents = () => {
-    if (widgetList.length === 0) {
-      return <NoWidgets />
-    }
-    return (
-      <div className={css.widgetContainer}>
-        {
-        widgetList.sort(
-          (a,b) => { 
-            if (a.weight > b.weight) return 1;
-            else if (b.weight > a.weight) return -1;
-            return 0;
-          }
-          ).map(w => renderWidget(w))
-        }
-      </div>
-    );
-  }
+  ];
 
   const renderWidget = (widget) => {
     return (
@@ -111,11 +91,30 @@ export default function Dashboard() {
           }
           roundedBorder
         >
-          Hello, I'm a widget
+          Hello, I&apos;m a widget
         </Card>
       </div>
     );
-  }
+  };
+
+  const dashboardContents = () => {
+    if (widgetList.length === 0) {
+      return <NoWidgets />;
+    }
+    return (
+      <div className={css.widgetContainer}>
+        {
+        widgetList.sort(
+          (a, b) => {
+            if (a.weight > b.weight) return 1;
+            else if (b.weight > a.weight) return -1;
+            return 0;
+          }
+        ).map(w => renderWidget(w))
+        }
+      </div>
+    );
+  };
 
   return (
     <div className={css.dashboard}>
