@@ -1,0 +1,50 @@
+@import '@folio/stripes-components/lib/variables.css';
+
+.dashboard {
+  background: var(--bg);
+  border-right: 1px solid var(--color-border);
+  height: 100%;
+  max-height: calc(100vh - 44px);
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  /* transition: all .25s ease-in-out; */
+  overflow: hidden;
+  position: absolute;
+  will-change: transform;
+}
+
+/**
+ * Pane Content
+ */
+
+.dashboardContent {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  outline: 0;
+  padding: var(--gutter-static);
+  overflow: hidden;
+}
+
+.widgetContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.widget {
+  min-width: 300px;
+  width: 50%;
+  padding-bottom: 50%;
+  padding: var(--gutter-static-two-thirds);
+  @media (--small) { width: 100%; }
+  @media (--x-large) { width: 33%; }
+  @media (min-width: 1921px) { width: 25%; }
+}
+
+.widgetTitle {
+  margin-left: var(--gutter-static-one-third);
+}
