@@ -25,7 +25,7 @@
     "hasSettings": true,
     "queryResource": "query",
     "okapiInterfaces": {
-      "erm": "1.0 2.0 3.0"
+      "erm": "1.0 2.0 3.0 4.0"
     },
     "stripesDeps": [
       "@folio/stripes-erm-components"
@@ -75,8 +75,8 @@
   },
   "dependencies": {
     "@folio/react-intl-safe-html": "^2.0.0",
-    "@folio/stripes-erm-components": "^4.0.0",
-    "@folio/stripes-smart-components": "^5.0.4",
+    "@folio/stripes-erm-components": "^5.0.0",
+    "@folio/stripes-smart-components": "^6.0.0",
     "compose-function": "^3.0.3",
     "final-form": "^4.18.5",
     "final-form-arrays": "^3.0.1",
