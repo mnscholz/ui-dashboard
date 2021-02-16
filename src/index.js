@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 const Settings = lazy(() => import('./settings'));
 const DashboardRoute = lazy(() => import('./routes/DashboardRoute'));
+const WidgetCreateRoute = lazy(() => import('./routes/WidgetCreateRoute'));
 
 class App extends React.Component {
   static propTypes = {
@@ -27,7 +28,9 @@ class App extends React.Component {
     return (
       <Suspense fallback={null}>
         <Switch>
-          <Route component={DashboardRoute} path={`${path}`} />
+          <Route component={WidgetCreateRoute} path={`${path}/:dashName/create`} />
+          <Route component={DashboardRoute} path={`${path}/:dashName`} />
+          <Route component={DashboardRoute} path={path} />
         </Switch>
       </Suspense>
     );
