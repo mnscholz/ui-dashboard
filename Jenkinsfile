@@ -2,7 +2,7 @@ buildNPM {
   publishModDescriptor = false
   npmDeploy = 'no'
   runLint = true
-  runSonarqube = false
+  runSonarqube = true
   runTest = true
   runTestOptions = ''
 }
