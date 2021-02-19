@@ -10,14 +10,17 @@ const Widget = ({
   widget
 }) => {
   return (
-    <div
-      className={css.card}
-    >
-      <WidgetHeader name={widget.name} />
+    <div className={css.widgetContainer}>
       <div
-        className={css.body}
+        className={css.card}
       >
-        {children}
+        <WidgetHeader key={`widget-header-${widget.id}`} name={widget.name} widgetId={widget.id} />
+        <div
+          key={`widget-body-${widget.id}`}
+          className={css.body}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -29,7 +32,8 @@ Widget.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
   ]).isRequired,
   widget: PropTypes.shape({
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired
   }).isRequired
 };
 

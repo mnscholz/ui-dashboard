@@ -1,0 +1,21 @@
+@import '@folio/stripes-components/lib/variables';
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.timestamp {
+  height: max-content;
+  padding: var(--gutter-static-one-third) 0;
+  align-self: center;
+}
+
+.leftContent {
+  display: flex;
+  color: var(--color-text-p2);
+}
+
+.rightContent {
+  padding: var(--gutter-static-one-third) 0;
+}

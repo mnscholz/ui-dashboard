@@ -6,7 +6,8 @@ import { Headline } from '@folio/stripes/components';
 import css from './WidgetHeader.css';
 
 const WidgetHeader = ({
-  name
+  name,
+  widgetId,
 }) => {
   return (
     <div
@@ -14,6 +15,7 @@ const WidgetHeader = ({
     >
       <span className={css.widgetTitle}>
         <Headline
+          key={`widget-header-headline-${widgetId}`}
           margin="none"
           size="large"
         >
@@ -28,7 +30,8 @@ const WidgetHeader = ({
 };
 
 WidgetHeader.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  widgetId: PropTypes.string.isRequired
 };
 
 export default WidgetHeader;

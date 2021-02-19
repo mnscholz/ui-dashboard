@@ -1,8 +1,10 @@
 import React from 'react';
-import { stripesConnect } from '@folio/stripes/core';
+import { useOkapiKy } from '@folio/stripes/core';
 import PropTypes from 'prop-types';
-
 import { Form } from 'react-final-form';
+
+import { useMutation, useQuery } from 'react-query';
+
 
 import WidgetForm from '../components/WidgetForm/WidgetForm';
 
@@ -11,28 +13,31 @@ const WidgetCreateRoute = ({
   location,
   match: {
     params
-  },
-  mutator,
-  resources: {
-    widgetDefs: {
-      records: widgetDefinitions = []
-    } = {},
-    dashboard: {
-      records : {
-        0: dashboard = {}
-      } = []
-    } = {},
   }
 }) => {
-  const doTheSubmit = (widget) => {
-    const dashId = dashboard.id;
+  const ky = useOkapiKy();
+  const { data: { 0: dashboard = {} } = [] } = useQuery(
+    ['ui-dashboard', 'widgetCreateRoute', 'getDash'],
+    () => ky(`servint/dashboard/my-dashboards?filters=name=${params.dashName}`).json()
+  );
 
+  const { data: widgetDefinitions } = useQuery(
+    ['ui-dashboard', 'widgetCreateRoute', 'getWidgetDefs'],
+    () => ky('servint/widgets/definitions').json()
+  );
+
+  const { mutateAsync: postWidget } = useMutation(
+    ['ui-dashboard', 'widgetCreateRoute', 'postWidget'],
+    (data) => ky.post('servint/widgets/instances', { json: data })
+  );
+
+  const doTheSubmit = (widget) => {
     // TODO this is just a hard coded configuration for now
     const conf = JSON.stringify({
       resultColumns:[
         {
           name:'agreementName',
-          label:'Overwritten column label'
+          label:'Name'
         },
         {
           name:'startDate'
@@ -45,11 +50,6 @@ const WidgetCreateRoute = ({
           filterValue:'active'
         },
         {
-          comparator: '==',
-          name:'agreementStatus',
-          filterValue:'closed'
-        },
-        {
           comparator: '<',
           name: 'startDate',
           filterValue: '2021-02-21'
@@ -58,15 +58,13 @@ const WidgetCreateRoute = ({
       sortColumn:[
         {
           name:'agreementName',
-          sortType:'desc'
+          sortType:'asc'
         }
       ]
     });
 
-    const submitValue = { ...widget, owner: { id: dashId }, configuration: conf };
-
-    return mutator.widgetInst
-      .POST(submitValue)
+    const submitValue = { ...widget, owner: { id: dashboard.id }, configuration: conf };
+    postWidget(submitValue)
       .then(() => {
         history.push(`dashboard/${params.dashName}`);
       });
@@ -106,32 +104,7 @@ const WidgetCreateRoute = ({
   );
 };
 
-export default stripesConnect(WidgetCreateRoute);
-
-WidgetCreateRoute.manifest = Object.freeze({
-  widgetDefs: {
-    type: 'okapi',
-    path: 'servint/widgets/definitions',
-    shouldRefresh: () => false,
-  },
-  dashboard: {
-    type: 'okapi',
-    path: (_p, params) => {
-      return `servint/dashboard/my-dashboards?filters=name=${params.dashName}`;
-    }
-  },
-  widgetInst: {
-    // Disable GET
-    GET: {
-      path: () => {
-        return null;
-      }
-    },
-    type: 'okapi',
-    path: 'servint/widgets/instances',
-    shouldRefresh: () => false,
-  },
-});
+export default WidgetCreateRoute;
 
 WidgetCreateRoute.propTypes = {
   history: PropTypes.shape({
@@ -145,12 +118,5 @@ WidgetCreateRoute.propTypes = {
     params: PropTypes.shape({
       dashName: PropTypes.string
     })
-  }).isRequired,
-  mutator: PropTypes.object,
-  resources: PropTypes.shape({
-    dashboard: PropTypes.shape({
-      id: PropTypes.string.isRequired
-    }).isRequired,
-    widgetDefs: PropTypes.object
-  })
+  }).isRequired
 };

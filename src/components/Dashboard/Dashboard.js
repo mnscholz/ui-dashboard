@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import DashboardHeader from '../DashboardHeader';
-import NoWidgets from '../NoWidgets';
+import DashboardHeader from './DashboardHeader';
+import NoWidgets from './NoWidgets';
 
-import SimpleSearch from '../WidgetComponents/SimpleSearch';
-import Widget from '../WidgetComponents/Widget';
+import SimpleSearch from '../WidgetComponents/SimpleSearch/SimpleSearch';
+import { Widget } from '../WidgetComponents/Widget';
 
 import css from './Dashboard.css';
 
@@ -21,6 +21,7 @@ const Dashboard = ({ dashboard, onCreate }) => {
       case 'SimpleSearch':
         return (
           <SimpleSearch
+            key={`simple-search-${widget.id}`}
             widget={widget}
           />
         );
@@ -32,13 +33,12 @@ const Dashboard = ({ dashboard, onCreate }) => {
 
   const renderWidget = (widget) => {
     return (
-      <div className={css.widget}>
-        <Widget
-          widget={widget}
-        >
-          {getWidgetComponent(widget)}
-        </Widget>
-      </div>
+      <Widget
+        key={`widget-${widget.id}`}
+        widget={widget}
+      >
+        {getWidgetComponent(widget)}
+      </Widget>
     );
   };
 
@@ -66,7 +66,10 @@ const Dashboard = ({ dashboard, onCreate }) => {
   };
   return (
     <div className={css.dashboard}>
-      <DashboardHeader onCreate={onCreate} />
+      <DashboardHeader
+        key={`dashboard-header-${dashboard?.id}`}
+        onCreate={onCreate}
+      />
       <div className={css.dashboardContent}>
         {dashboardContents()}
       </div>

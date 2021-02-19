@@ -9,13 +9,24 @@
   overflow: hidden;
   border-radius: var(--radius);
   margin-bottom: 0;
-  padding: var(--gutter-static-one-third) var(--gutter-static);
+  padding: var(--gutter-static);
+  padding-bottom: 0;
+  box-shadow: var(--shadow);
+}
 
+.widgetContainer {
+  min-width: 300px;
+  width: 50%;
+  padding-bottom: 50%;
+  padding: var(--gutter-static-two-thirds);
+  @media (--small) { width: 100%; }
+  @media (--x-large) { width: 33%; }
+  @media (min-width: 1921px) { width: 25%; }
 }
 
 .body {
+  margin-bottom: 0;
   width: 100%;
-  padding: var(--gutter-static);
 }
 
 /* Card Styles */
