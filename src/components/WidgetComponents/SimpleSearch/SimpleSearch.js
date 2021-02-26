@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+
 import moment from 'moment';
 
 import { useQuery } from 'react-query';
 import { useOkapiKy } from '@folio/stripes/core';
+import { Badge } from '@folio/stripes/components';
 
 import pathBuilder from './simpleSearchPathBuilder';
 import columnParser from './simpleSearchColumnParser';
 
 import SimpleTable from '../SimpleTable';
 import { WidgetFooter } from '../Widget';
+import css from './SimpleSearch.css';
 
 const SimpleSearch = ({
   widget
@@ -33,20 +39,46 @@ const SimpleSearch = ({
   );
 
   const timestamp = dataUpdatedAt ? moment(dataUpdatedAt).format('hh:mm a') : '';
+  const {
+    configurableProperties: {
+      urlLink
+    } = {}
+  } = widgetConf;
+
+  const urlLinkButton = () => {
+    if (!urlLink) {
+      return null;
+    }
+    return (
+      <Link
+        className={css.linkText}
+        to={urlLink}
+      >
+        <FormattedMessage id="ui-dashboard.simpleSearch.widget.linkText" />
+      </Link>
+    );
+  };
 
   return (
     <>
+      <div className={css.countBadge}>
+        <Badge>
+          <FormattedMessage id="ui-dashboard.simpleSearch.widget.nFoundBadge" values={{ total: data?.total }} />
+        </Badge>
+      </div>
       <SimpleTable
         key={`simple-table-${widget.id}`}
         columns={columns}
-        data={data?.results || []}
+        data={useMemo(() => data?.results || [], [data])}
         widgetId={widget.id}
       />
       <WidgetFooter
         key={`widget-footer-${widget.id}`}
         onRefresh={() => refetch()}
+        rightContent={urlLinkButton()}
         timestamp={timestamp}
         widgetId={widget.id}
+        widgetName={widget.name}
       />
     </>
   );
@@ -60,6 +92,7 @@ SimpleSearch.propTypes = {
     definition: PropTypes.shape({
       definition: PropTypes.string.isRequired
     }).isRequired,
-    id: PropTypes.string
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
   }).isRequired
 };

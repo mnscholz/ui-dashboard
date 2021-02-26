@@ -1,7 +1,4 @@
-import { groupBy } from 'lodash';
-
 const simpleSearchPathBuilder = (widgetDef, widgetConf) => {
-  // TODO add sort column support
   const {
     baseUrl,
     filters: {
@@ -19,37 +16,59 @@ const simpleSearchPathBuilder = (widgetDef, widgetConf) => {
     pathString = baseUrl.substring(1);
   }
 
-  const { filterColumns, sortColumn: { 0: sortColumn } = [] } = widgetConf;
+  const {
+    configurableProperties: {
+      numberOfRows
+    } = {},
+    filterColumns,
+    sortColumn
+  } = widgetConf;
   pathString += '?';
 
-  if (filterColumns) {
-    const groupedFilters = groupBy(filterColumns, 'name');
+  /*
+      filterColumns will be an array of the form:
+      [
+        {
+          name: "agreementStatus",
+          rules: [
+            {
+              comparator: "==",
+              filterValue: "active"
+            },
+            {
+              comparator: "==",
+              filterValue: "closed"
+            }
+          ]
+        },
+        {
+          name: "startDate",
+          rules: [
+            {
+              comparator: ">",
+              filterValue: "2012-02-01"
+            }
+          ]
+        },
+        {
+          name: "startDate",
+          rules: [
+            {
+              comparator: "<",
+              filterValue: "2021-02-22"
+            }
+          ]
+        }
+      ]
+      We need to AND the top level filters, and OR the second level rules
+    */
 
+  if (filterColumns) {
     // Start building the filterString
     let filterString = '';
-    /*
-      This will return an object of the form:
-      {
-        vendor: [
-          {
-            column: "vendor",
-            filterValue: "EBSCO"
-          },
-          {
-            column: "vendor",
-            filterValue: "AnotherVendor"
-          }
-        ],
-        startDate: [
-          {
-            column: "startDate",
-            filterValue: "2020-01-19"
-            comparitor: "le"
-          }
-        ]
-      }
-    */
-    Object.keys(groupedFilters).forEach((f, index) => {
+
+    // Begin each filter with & unless it's the first one
+    filterColumns.forEach((f, index) => {
       let specificFilterString = '';
       if (index !== 0) {
         specificFilterString = '&filters=';
@@ -57,14 +76,21 @@ const simpleSearchPathBuilder = (widgetDef, widgetConf) => {
         specificFilterString = 'filters=';
       }
 
-      const filter = groupedFilters[f];
       // This assumes that if a filterColumn exists then that column will always be in the widgetDef
       // We need to implement some kind of auto-schema check on the backend to support this
-      const filterPath = (defFilterColumns.find(fc => fc.name === f))?.filterPath;
+      const filterPath = (defFilterColumns.find(fc => fc.name === f.name))?.filterPath;
 
-      filter.forEach((sf, ind) => {
-        specificFilterString += `${filterPath}${sf.comparator}${sf.filterValue}`;
-        if (ind !== filter.length - 1) {
+      // Then take each of the rules within the filter, and OR them together with the correct comparators
+      const { rules } = f;
+      rules.forEach((r, ind) => {
+        if (r.isNull) {
+          // If we're allowing null the filterString is slightly different
+          specificFilterString += `${filterPath} isNull`;
+        } else {
+          specificFilterString += `${filterPath}${r.comparator}${r.filterValue}`;
+        }
+
+        if (ind !== rules.length - 1) {
           // This doesn't work as "||", it needs encoded value
           specificFilterString += '%7C%7C';
         }
@@ -94,6 +120,10 @@ const simpleSearchPathBuilder = (widgetDef, widgetConf) => {
     pathString += 'stats=true';
   }
 
+  if (numberOfRows) {
+    // We can assume always & because stats will be present
+    pathString += `&perPage=${numberOfRows}`;
+  }
 
   return pathString;
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { FormattedUTCDate } from '@folio/stripes/components';
+import { FormattedUTCDate, Icon, NoValue } from '@folio/stripes/components';
 /*
   Takes in the fetched data, and returns an object of the shape:
   [
@@ -34,10 +34,22 @@ const capitaliseText = (str) => {
 
 // Render dates in FOLIO standard
 const dateRenderer = ({ cell: { value } }) => (
-  <FormattedUTCDate value={value} />
+  value ?
+    <FormattedUTCDate value={value} /> :
+    <NoValue />
+);
+
+const boolRenderer = ({ cell: { value } }) => (
+  value ?
+    <Icon icon="check-circle" /> :
+    <Icon icon="times-circle" />
 );
 
 dateRenderer.propTypes = {
+  cell: PropTypes.object
+};
+
+boolRenderer.propTypes = {
   cell: PropTypes.object
 };
 
@@ -55,18 +67,22 @@ const simpleSearchColumnParser = ({
   // If they're not there it'll cause issues.
 
   // First combine the configured result column data with the widgetdef result column data
-  return resultColumns.map(rc => {
+  return resultColumns.map((rc, index) => {
     const drc = defResultColumns.find(c => c.name === rc.name);
 
     // Heirachy is overwritten col label -> definition column label -> definition column name (capitalised)
     const headerText = (rc.label || drc.label || capitaliseText(drc.name));
-    const returnColumn = { Header: headerText, accessor: drc.accessPath };
+    const returnColumn = { Header: headerText, accessor: drc.accessPath, id: `${rc.name}-[${index}]` };
 
     // Add any custom column rendering in here
     // NOTE this is column-wide, not cell wide.
     // That would need to happen in the SimpleTable component.
     if (drc.valueType === 'Date') {
       returnColumn.Cell = dateRenderer;
+    }
+
+    if (drc.valueType === 'Boolean') {
+      returnColumn.Cell = boolRenderer;
     }
 
     return returnColumn;

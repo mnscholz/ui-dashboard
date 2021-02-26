@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useQuery } from 'react-query';
@@ -29,6 +29,12 @@ const DashboardRoute = ({
 
   const [dashName, setDashName] = useState(params.dashName || 'DEFAULT');
 
+  useEffect(() => {
+    if (location.pathname !== `/dashboard/${dashName}`) {
+      history.push(`/dashboard/${dashName}`);
+    }
+  }, [history, location.pathname, dashName]);
+
   // Load specific dashboard -- for now will only be DEFAULT
   const { data: { 0: dashboard } = [], isLoading: dashboardLoading } = useQuery(
     ['ui-dashboard', 'dashboardRoute', 'dashboard'],
@@ -49,12 +55,8 @@ const DashboardRoute = ({
     return null;
   }
 
-  if (location.pathname !== `/dashboard/${dashName}`) {
-    history.push(`/dashboard/${dashName}${location.search}`);
-  }
-
   const handleCreate = () => {
-    history.push(`${location.pathname}/create${location.search}`);
+    history.push(`${location.pathname}/create`);
   };
 
   if (dashboardLoading) {

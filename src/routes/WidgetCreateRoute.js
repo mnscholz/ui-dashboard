@@ -2,15 +2,14 @@ import React from 'react';
 import { useOkapiKy } from '@folio/stripes/core';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
+import arrayMutators from 'final-form-arrays';
 
 import { useMutation, useQuery } from 'react-query';
-
 
 import WidgetForm from '../components/WidgetForm/WidgetForm';
 
 const WidgetCreateRoute = ({
   history,
-  location,
   match: {
     params
   }
@@ -31,75 +30,46 @@ const WidgetCreateRoute = ({
     (data) => ky.post('servint/widgets/instances', { json: data })
   );
 
-  const doTheSubmit = (widget) => {
-    // TODO this is just a hard coded configuration for now
-    const conf = JSON.stringify({
-      resultColumns:[
-        {
-          name:'agreementName',
-          label:'Name'
-        },
-        {
-          name:'startDate'
-        }
-      ],
-      filterColumns:[
-        {
-          comparator: '==',
-          name:'agreementStatus',
-          filterValue:'active'
-        },
-        {
-          comparator: '<',
-          name: 'startDate',
-          filterValue: '2021-02-21'
-        }
-      ],
-      sortColumn:[
-        {
-          name:'agreementName',
-          sortType:'asc'
-        }
-      ]
-    });
-
-    const submitValue = { ...widget, owner: { id: dashboard.id }, configuration: conf };
-    postWidget(submitValue)
-      .then(() => {
-        history.push(`dashboard/${params.dashName}`);
-      });
-  };
-
   const handleClose = () => {
-    history.push(`dashboard/${params.dashName}${location.search}`);
+    history.push(`dashboard/${params.dashName}`);
   };
 
-  // TODO have this form move onto page 2 instead of submitting hardcoded widget
+  const doTheSubmit = ({
+    definition,
+    name,
+    ...widgetConf
+  }) => {
+    const conf = JSON.stringify({
+      ...widgetConf
+    });
+    const submitValue = { definition, name, owner: { id: dashboard.id }, configuration: conf };
+    postWidget(submitValue)
+      .then(handleClose);
+  };
 
   return (
     <Form
       // initialValues={initialValues}
       enableReinitialize
       keepDirtyOnReinitialize
+      mutators={arrayMutators}
       navigationCheck
       onSubmit={doTheSubmit}
-      subscription={{ value: true }}
+      subscription={{ values: true }}
     >
-      {({ handleSubmit }) => {
-        return (
-          <form onSubmit={handleSubmit}>
-            <WidgetForm
-              data={{
-                widgetDefinitions
-              }}
-              handlers={{
-                onSubmit: handleSubmit,
-                onClose: handleClose
-              }}
-            />
-          </form>
-        );
-      }}
+      {({ handleSubmit }) => (
+        <form onSubmit={handleSubmit}>
+          <WidgetForm
+            data={{
+              widgetDefinitions
+            }}
+            handlers={{
+              onClose: handleClose,
+              onSubmit: handleSubmit
+            }}
+          />
+        </form>
+      )}
     </Form>
   );
 };
