@@ -1,42 +1,74 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { Field, useFormState } from 'react-final-form';
 
 import {
   Col,
-  Checkbox,
   KeyValue,
   Row,
   Select
 } from '@folio/stripes/components';
 import { get } from 'lodash';
+import { requiredValidator } from '@folio/stripes-erm-components';
+import SimpleSearchDateFilterField from './SimpleSearchDateFilterField';
+import SimpleSearchUUIDFilterField from './SimpleSearchUUIDFilterField';
+
 
 const SimpleSearchFilterRuleField = ({
   filterComponent,
   filterComponentProps,
   input: { name },
-  selectedFilterColumn
+  selectedFilterColumn: { comparators = [], valueType } = {}
 }) => {
   const { values } = useFormState();
-  const selectifiedComparators = selectedFilterColumn?.comparators.map(
-    sfcc => ({ value: sfcc, label: sfcc })
+  const intl = useIntl();
+
+  const selectifiedComparators = comparators.map(
+    sfcc => ({ value: sfcc,
+      label: intl.formatMessage({
+        id: `ui-dashboard.simpleSearchForm.filters.filterField.comparator.${valueType}.${sfcc}`,
+        defaultMessage: sfcc
+      }) })
   );
 
-  // Check if isNull is an option, because we have to deal with that differently
-  const hasIsNull = selectedFilterColumn?.comparators?.includes('isNull');
+  const isSetOrUnset = get(values, `${name}.comparator`) === 'isNull' || get(values, `${name}.comparator`) === 'isNotNull';
+
+  if (valueType === 'Date') {
+    return (
+      <SimpleSearchDateFilterField
+        comparators={comparators}
+        filterComponent={filterComponent}
+        filterComponentProps={filterComponentProps}
+        input={{ name }}
+        selectifiedComparators={selectifiedComparators}
+      />
+    );
+  }
+
+  if (valueType === 'UUID') {
+    return (
+      <SimpleSearchUUIDFilterField
+        comparators={comparators}
+        filterComponent={filterComponent}
+        filterComponentProps={filterComponentProps}
+        input={{ name }}
+        selectifiedComparators={selectifiedComparators}
+      />
+    );
+  }
 
   return (
     <Row>
-      <Col xs={hasIsNull ? 4 : 6}>
+      <Col xs={6}>
         <KeyValue label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.comparator" />}>
           <Field
             component={Select}
             dataOptions={selectifiedComparators}
-            defaultValue={selectedFilterColumn?.comparators[0]}
-            disabled={get(values, `${name}.isNull`)}
             name={`${name}.comparator`}
+            required
+            validate={requiredValidator}
           />
         </KeyValue>
       </Col>
@@ -45,22 +77,11 @@ const SimpleSearchFilterRuleField = ({
           <Field
             {...filterComponentProps}
             component={filterComponent}
-            disabled={get(values, `${name}.isNull`)}
+            disabled={isSetOrUnset}
             name={`${name}.filterValue`}
           />
         </KeyValue>
       </Col>
-      { hasIsNull &&
-        <Col xs={2}>
-          <KeyValue label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.isNull" />}>
-            <Field
-              component={Checkbox}
-              name={`${name}.isNull`}
-              type="checkbox"
-            />
-          </KeyValue>
-        </Col>
-      }
     </Row>
   );
 };
@@ -76,7 +97,6 @@ SimpleSearchFilterRuleField.propTypes = {
       PropTypes.string
     )
   })
-
 };
 
 export default SimpleSearchFilterRuleField;

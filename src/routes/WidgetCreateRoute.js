@@ -7,6 +7,7 @@ import arrayMutators from 'final-form-arrays';
 import { useMutation, useQuery } from 'react-query';
 
 import WidgetForm from '../components/WidgetForm/WidgetForm';
+import submitWithTokens from '../components/WidgetForm/SimpleSearch/formTokenParsing';
 
 const WidgetCreateRoute = ({
   history,
@@ -39,10 +40,20 @@ const WidgetCreateRoute = ({
     name,
     ...widgetConf
   }) => {
+    /* This is a simpleSearch specific action,
+     * this will need to be on a switch,
+     * so that we can perform other widgetType-specifc
+     * actions to other submits.
+     */
+    const tweakedWidgetConf = submitWithTokens(widgetConf);
+
+    // Stringify the configuration
     const conf = JSON.stringify({
-      ...widgetConf
+      ...tweakedWidgetConf
     });
+    // Include other necessary metadata
     const submitValue = { definition, name, owner: { id: dashboard.id }, configuration: conf };
+    // Post and close
     postWidget(submitValue)
       .then(handleClose);
   };
