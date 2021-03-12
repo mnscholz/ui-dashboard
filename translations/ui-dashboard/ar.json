@@ -88,5 +88,13 @@
     "simpleSearchForm.filters.filterField.comparator.UUID.==": "هو",
     "simpleSearchForm.filters.filterField.comparator.UUID.!=": "ليس",
     "simpleSearchForm.filters.filterField.comparator.UUID.isNull": "لم يتم تعيينه",
-    "simpleSearchForm.filters.filterField.comparator.UUID.isNotNull": "تم تعيينه"
+    "simpleSearchForm.filters.filterField.comparator.UUID.isNotNull": "تم تعيينه",
+    "loading": "Loading",
+    "dashboardHeader.reorder": "Edit order",
+    "dashboard.reorderForm.paneTitle": "Edit dashboard",
+    "dashboard.reorderForm.widget.widgetname": "Widget name",
+    "simpleSearchForm.filters.dateFilterField.absoluteValueWarning": "An absolute date or date token must be input",
+    "simpleSearchForm.filters.uuidFilterField.absoluteValueWarning": "A user UUID or current user token must be input",
+    "simpleSearchForm.results.column": "Column",
+    "simpleSearchForm.results.label": "Label"
 }
