@@ -88,5 +88,13 @@
     "simpleSearchForm.filters.filterField.comparator.UUID.==": "jest",
     "simpleSearchForm.filters.filterField.comparator.UUID.!=": "nie jest",
     "simpleSearchForm.filters.filterField.comparator.UUID.isNull": "nie jest ustawiony",
-    "simpleSearchForm.filters.filterField.comparator.UUID.isNotNull": "jest ustawiony"
+    "simpleSearchForm.filters.filterField.comparator.UUID.isNotNull": "jest ustawiony",
+    "loading": "Loading",
+    "dashboardHeader.reorder": "Edit order",
+    "dashboard.reorderForm.paneTitle": "Edit dashboard",
+    "dashboard.reorderForm.widget.widgetname": "Widget name",
+    "simpleSearchForm.filters.dateFilterField.absoluteValueWarning": "An absolute date or date token must be input",
+    "simpleSearchForm.filters.uuidFilterField.absoluteValueWarning": "A user UUID or current user token must be input",
+    "simpleSearchForm.results.column": "Column",
+    "simpleSearchForm.results.label": "Label"
 }
