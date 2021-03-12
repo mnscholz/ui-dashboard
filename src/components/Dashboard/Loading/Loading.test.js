@@ -4,16 +4,16 @@ import { renderWithIntl } from '@folio/stripes-erm-components/test/jest/helpers'
 
 import translationsProperties from '../../../../test/helpers';
 
-import NoWidgets from './NoWidgets';
+import Loading from './Loading';
 
 
 describe('NoWidgets', () => {
-  test('renders expected noWidget text', () => {
+  test('renders expected loading text', () => {
     const { getByText } = renderWithIntl(
-      <NoWidgets />,
+      <Loading />,
       translationsProperties
     );
 
-    expect(getByText('Add a new widget to your dashboard')).toBeInTheDocument();
+    expect(getByText('Loading')).toBeInTheDocument();
   });
 });

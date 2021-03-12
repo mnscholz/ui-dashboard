@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import { useOkapiKy } from '@folio/stripes/core';
 
+import Loading from '../components/Dashboard/Loading';
 import Dashboard from '../components/Dashboard/Dashboard';
 
 const DashboardRoute = ({
@@ -36,7 +37,7 @@ const DashboardRoute = ({
   }, [history, location.pathname, dashName]);
 
   // Load specific dashboard -- for now will only be DEFAULT
-  const { data: { 0: dashboard } = [], isLoading: dashboardLoading } = useQuery(
+  const { data: { 0: dashboard } = [], isLoading: dashboardLoading, isSuccess: isDashboardSuccess } = useQuery(
     ['ui-dashboard', 'dashboardRoute', 'dashboard'],
     () => ky(`servint/dashboard/my-dashboards?filters=name=${dashName}`).json(),
     {
@@ -50,6 +51,16 @@ const DashboardRoute = ({
     }
   );
 
+  // Fetching widgets separately allows us to sort them by weighting on fetch, and maybe paginate later on if necessary
+  const { data: widgets = [], isLoading: widgetsLoading } = useQuery(
+    ['ui-dashboard', 'dashboardRoute', 'widgets'],
+    () => ky(`servint/widgets/instances?filters=owner.id=${dashboard?.id}&sort=weight;asc&perPage=100`).json(),
+    {
+      /* Once the dashboard has been fetched, we can then fetch the ordered list of widgets from it */
+      enabled: isDashboardSuccess
+    }
+  );
+
   // DASHBOARD DEFAULT SHOULD BE CREATED AUTOMATICALLY BUT MIGHT TAKE MORE THAN ONE RENDER CYCLE
   if (dashboardsLoading || !dashboards.length) {
     return null;
@@ -59,18 +70,23 @@ const DashboardRoute = ({
     history.push(`${location.pathname}/create`);
   };
 
-  if (dashboardLoading) {
-    // TODO Clean up this loading screen
-    return <p> DASHBOARD LOADING </p>;
+  const handleReorder = () => {
+    history.push(`${location.pathname}/editOrder`);
+  };
+
+  if (dashboardLoading || widgetsLoading) {
+    return <Loading />;
   }
 
   if (dashboard) {
     return (
       <Dashboard
         key={`dashboard-${dashboard.id}`}
-        dashboard={dashboard}
+        dashboardId={dashboard.id}
         onChangeDash={setDashName}
         onCreate={handleCreate}
+        onReorder={handleReorder}
+        widgets={widgets}
       />
     );
   }

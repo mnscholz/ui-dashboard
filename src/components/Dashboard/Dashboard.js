@@ -10,11 +10,13 @@ import { Widget } from '../WidgetComponents/Widget';
 import css from './Dashboard.css';
 
 const propTypes = {
-  dashboard: PropTypes.object,
-  onCreate: PropTypes.func.isRequired
+  dashboardId: PropTypes.string.isRequired,
+  onCreate: PropTypes.func.isRequired,
+  onReorder: PropTypes.func.isRequired,
+  widgets: PropTypes.arrayOf(PropTypes.object)
 };
 
-const Dashboard = ({ dashboard, onCreate }) => {
+const Dashboard = ({ dashboardId, onCreate, onReorder, widgets }) => {
   const getWidgetComponent = (widget) => {
     const widgetType = widget.definition.type.name;
     switch (widgetType) {
@@ -43,32 +45,21 @@ const Dashboard = ({ dashboard, onCreate }) => {
   };
 
   const dashboardContents = () => {
-    const widgetList = dashboard?.widgets;
-    if (!widgetList?.length) {
+    if (!widgets?.length) {
       return <NoWidgets />;
     }
     return (
       <div className={css.widgetContainer}>
-        {
-          // TODO WEIGHT NOT YET IMPLEMENTED
-          /* .sort(
-          (a, b) => {
-            if (a.weight > b.weight) return 1;
-            else if (b.weight > a.weight) return -1;
-            return 0;
-          }
-        ).
-        */
-        widgetList.map(w => renderWidget(w))
-        }
+        {widgets.map(w => renderWidget(w))}
       </div>
     );
   };
   return (
     <div className={css.dashboard}>
       <DashboardHeader
-        key={`dashboard-header-${dashboard?.id}`}
+        key={`dashboard-header-${dashboardId}`}
         onCreate={onCreate}
+        onReorder={onReorder}
       />
       <div className={css.dashboardContent}>
         {dashboardContents()}

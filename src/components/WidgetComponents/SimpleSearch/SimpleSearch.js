@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
@@ -53,12 +52,9 @@ const SimpleSearch = ({
       return null;
     }
     return (
-      <Link
-        className={css.linkText}
-        to={urlLink}
-      >
+      <a className={css.linkText} href={urlLink}>
         <FormattedMessage id="ui-dashboard.simpleSearch.widget.linkText" />
-      </Link>
+      </a>
     );
   };
 

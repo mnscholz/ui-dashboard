@@ -20,6 +20,7 @@ import {
   Select,
   TextField
 } from '@folio/stripes/components';
+import { requiredValidator } from '@folio/stripes-erm-components';
 import SimpleSearchForm from './SimpleSearch/SimpleSearchForm';
 
 const propTypes = {
@@ -139,6 +140,7 @@ const WidgetForm = ({
     <>
       <Paneset>
         <Pane
+          centerContent
           defaultWidth="100%"
           footer={renderPaneFooter()}
           id="pane-widget-form"
@@ -153,6 +155,8 @@ const WidgetForm = ({
                 <Field
                   component={TextField}
                   name="name"
+                  required
+                  validate={requiredValidator}
                 />
               </KeyValue>
             </Col>
@@ -180,6 +184,7 @@ const WidgetForm = ({
                     }
                   }}
                   required
+                  validate={requiredValidator}
                 />
               </KeyValue>
             </Col>

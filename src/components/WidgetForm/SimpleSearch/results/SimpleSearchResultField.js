@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
 import { Field, useForm } from 'react-final-form';
@@ -9,6 +10,8 @@ import {
   TextField
 } from '@folio/stripes/components';
 
+import css from './SimpleSearchResults.css';
+
 const SimpleSearchResultField = ({ resultColumns, input: { name } }) => {
   const { change } = useForm();
 
@@ -16,12 +19,15 @@ const SimpleSearchResultField = ({ resultColumns, input: { name } }) => {
   const selectifiedResultColumns = resultColumns.map(rc => ({ value: rc.name, label: rc.label || rc.name }));
 
   return (
-    <Row>
+    <Row
+      className={css.innerRow}
+    >
       <Col xs={6}>
         <Field
           component={Select}
           dataOptions={selectifiedResultColumns}
           defaultValue={selectifiedResultColumns[0].value}
+          label={<FormattedMessage id="ui-dashboard.simpleSearchForm.results.column" />}
           name={`${name}.name`}
           onChange={
             e => {
@@ -38,6 +44,7 @@ const SimpleSearchResultField = ({ resultColumns, input: { name } }) => {
         <Field
           component={TextField}
           defaultValue={selectifiedResultColumns[0].label}
+          label={<FormattedMessage id="ui-dashboard.simpleSearchForm.results.label" />}
           name={`${name}.label`}
         />
       </Col>

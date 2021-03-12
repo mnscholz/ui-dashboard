@@ -1,9 +1,15 @@
 {
   "meta.title": "Dashboard",
   "noWidgets": "Add a new widget to your dashboard",
+  "loading": "Loading",
+
   "dashboardHeader.new": "New",
+  "dashboardHeader.reorder": "Edit order",
 
   "dashboard.newWidget": "{label} widget",
+
+  "dashboard.reorderForm.paneTitle": "Edit dashboard",
+  "dashboard.reorderForm.widget.widgetname": "Widget name",
 
   "widgetFooter.refreshButtonLabel": "Refresh widget: {widgetName}",
 
@@ -43,9 +49,10 @@
   "simpleSearchForm.filters.dateFilterField.offsetMustBePositive": "Offset must be greater than or equal to 0",
   "simpleSearchForm.filters.dateFilterField.offsetMethod": "Offset method",
   "simpleSearchForm.filters.dateFilterField.timeUnit": "Time unit",
+  "simpleSearchForm.filters.dateFilterField.absoluteValueWarning": "An absolute date or date token must be input",
 
   "simpleSearchForm.filters.uuidFilterField.currentUser": "Current user (variable)",
-
+  "simpleSearchForm.filters.uuidFilterField.absoluteValueWarning": "A user UUID or current user token must be input",
 
   "simpleSearchForm.filters.filterField.comparator.Date.==": "is",
   "simpleSearchForm.filters.filterField.comparator.Date.!=": "is not",
@@ -97,6 +104,9 @@
   "simpleSearchForm.filters.filterField.comparator.UUID.isNotNull": "is set",
 
   "simpleSearchForm.results": "Result columns",
+  "simpleSearchForm.results.column": "Column",
+  "simpleSearchForm.results.label": "Label",
+
   "simpleSearchForm.results.addResult": "Add result column",
   "simpleSearchForm.results.removeResult": "Remove result column {index}",
   "simpleSearchForm.results.result": "Result column {index}",
