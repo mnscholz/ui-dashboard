@@ -2,7 +2,7 @@
     "meta.title": "Dashboard",
     "noWidgets": "Add a new widget to your dashboard",
     "dashboardHeader.new": "Nouveau",
-    "dashboard.newWidget": "{label} widget",
+    "dashboard.newWidget": "widget {label}",
     "widgetForm.createWidget": "Créer un widget",
     "widgetFooter.refreshButtonLabel": "Actualiser le widget: {widgetName}",
     "widgetForm.widgetName": "Nom du widget",
