@@ -6,6 +6,7 @@ import {
   Button,
 } from '@folio/stripes/components';
 
+import ActionMenu from '../../ActionMenu/ActionMenu';
 import css from './DashboardHeader.css';
 
 const propTypes = {
@@ -14,26 +15,28 @@ const propTypes = {
 };
 
 export default function DashboardHeader({ onCreate, onReorder }) {
-  return (
-    <div className={css.dashboardHeader}>
+  const getActionMenu = () => (
+    <>
       <Button
-        {...{
-          'buttonStyle': 'primary',
-          'marginBottom0': true,
-        }}
-        onClick={onReorder}
-      >
-        <FormattedMessage id="ui-dashboard.dashboardHeader.reorder" />
-      </Button>
-      <Button
-        {...{
-          'buttonStyle': 'primary',
-          'marginBottom0': true,
-        }}
+        buttonStyle="dropdownItem"
+        id="clickable-new-widget"
         onClick={onCreate}
       >
         <FormattedMessage id="ui-dashboard.dashboardHeader.new" />
       </Button>
+      <Button
+        buttonStyle="dropdownItem"
+        id="clickable-reorderdashboard"
+        onClick={onReorder}
+      >
+        <FormattedMessage id="ui-dashboard.dashboardHeader.reorder" />
+      </Button>
+    </>
+  );
+
+  return (
+    <div className={css.dashboardHeader}>
+      <ActionMenu actionMenu={getActionMenu} />
     </div>
   );
 }

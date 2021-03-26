@@ -61,9 +61,9 @@ const SimpleSearchDateFilterField = ({
       </Col>
       <Col xs={3}>
         <KeyValue
-          label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.value" />}
+          label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.date" />}
         >
-          <Row>
+          <Row className={css.innerRow}>
             <div className={css.flexContainer}>
               <div className={css.radioButton}>
                 <Field
@@ -97,7 +97,7 @@ const SimpleSearchDateFilterField = ({
               </div>
             </div>
           </Row>
-          <Row>
+          <Row className={css.innerRow}>
             <div className={css.flexContainer}>
               <div className={css.radioButton}>
                 <Field

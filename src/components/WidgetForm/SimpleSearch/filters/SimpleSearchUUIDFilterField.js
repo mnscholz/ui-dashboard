@@ -54,9 +54,9 @@ const SimpleSearchUUIDFilterField = ({
       </Col>
       <Col xs={6}>
         <KeyValue
-          label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.value" />}
+          label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.uuid" />}
         >
-          <Row>
+          <Row className={css.innerRow}>
             <div className={css.flexContainer}>
               <div className={css.radioButton}>
                 <Field
@@ -90,7 +90,7 @@ const SimpleSearchUUIDFilterField = ({
               </div>
             </div>
           </Row>
-          <Row>
+          <Row className={css.innerRow}>
             <div className={css.flexContainer}>
               <div className={css.radioButton}>
                 <Field

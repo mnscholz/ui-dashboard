@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { get } from 'lodash';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { FieldArray } from 'react-final-form-arrays';
 import { useFormState, useForm } from 'react-final-form';
 
@@ -26,6 +26,8 @@ const ReorderForm = ({
 }) => {
   const { values } = useFormState();
   const { change } = useForm();
+
+  const intl = useIntl();
 
   // Keep weights up to date with list index in form
   useEffect(() => {
@@ -67,14 +69,16 @@ const ReorderForm = ({
     );
   };
 
-  const getDraggableDivProps = (draggable) => {
-    return ({
-      className: classnames(
-        css.draggableBox,
-        draggable.draggableProvided.draggableProps.style,
-        { [css.pickedUp]: draggable.draggableSnapshot.isDragging }
-      )
-    });
+  const getDraggableDivStyle = (draggable) => {
+    return (classnames(
+      css.draggableBox,
+      draggable.draggableProvided.draggableProps.style,
+      { [css.pickedUp]: draggable.draggableSnapshot.isDragging }
+    ));
+  };
+
+  const widgetNameFromName = (name) => {
+    return get(values, `${name}.name`);
   };
 
   return (
@@ -88,17 +92,22 @@ const ReorderForm = ({
       >
         <FieldArray
           component={DragAndDropFieldArray}
-          draggableDivStyle={getDraggableDivProps}
+          draggableDivStyle={getDraggableDivStyle}
           name="widgets"
+          renderHandle={(name, index) => (
+            <Icon
+              ariaLabel={
+                intl.formatMessage(
+                  { id: 'ui-dashboard.dashboard.reorderForm.dragAndDropHandleAria' },
+                  { index: index + 1, widgetName: widgetNameFromName(name) }
+                )
+              }
+              icon="drag-drop"
+            />
+          )}
         >
           {(name) => {
-            return (
-              <Icon
-                icon="drag-drop"
-              >
-                {get(values, `${name}.name`)}
-              </Icon>
-            );
+            return widgetNameFromName(name);
           }}
         </FieldArray>
       </Pane>

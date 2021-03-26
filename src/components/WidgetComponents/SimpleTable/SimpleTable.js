@@ -2,19 +2,15 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { get } from 'lodash';
-import { useTable, useBlockLayout } from 'react-table';
+import { useTable, useFlexLayout } from 'react-table';
 import css from './SimpleTable.css';
 
 const getColumnWidth = (rows, accessor, headerText) => {
-  const maxWidth = 400;
-  const magicSpacing = 10;
-
-  const cellLength = Math.max(
-    ...rows.map(row => (get(row, accessor) || '').length),
+  // Using log so that a column of 255 and two columns of 10 don't end up massively mismatched
+  return Math.log(Math.max(
+    ...rows.map(row => (get(row, accessor) || '').length || 0),
     headerText.length,
-  );
-
-  return Math.min(maxWidth, cellLength * magicSpacing);
+  ));
 };
 
 const SimpleTable = ({ columns, data, widgetId }) => {
@@ -29,18 +25,8 @@ const SimpleTable = ({ columns, data, widgetId }) => {
 };
 
 const ResizedTable = ({ columns, data, widgetId }) => {
-  const defaultColumn = React.useMemo(
-    () => ({
-      minWidth: 30,
-      width: 150,
-      maxWidth: 400,
-    }),
-    []
-  );
-
   // Use the useTable Hook to send the columns and data to build the table
   const {
-    getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
@@ -48,24 +34,54 @@ const ResizedTable = ({ columns, data, widgetId }) => {
   } = useTable({
     columns,
     data,
-    defaultColumn
-  }, useBlockLayout);
+  }, useFlexLayout);
 
   /*
     Render the UI for our table
     react-table doesn't have UI, it's headless.
   */
+
+  const destructuredWidthFunction = (getPropFunc) => {
+    // Destructure out styling props so we can use width as flex-basis
+    // Abstracted out because logic is same for col header and cell
+    const { style: { width, ...otherStyles }, ...otherProps } = getPropFunc();
+    return (
+      {
+        ...otherProps,
+        style: {
+          ...otherStyles,
+          'flex-basis': width,
+          'max-width': '400px'
+        }
+      }
+    );
+  };
+
   return (
     <div className={css.tableContainer}>
-      <div {...getTableProps()} className={css.table}>
+      {
+        /*
+         * Avoided getTableProps here
+         * because it sets a min-width
+         * which ruins styling on overlap.
+         * Replaced with css.table
+         */
+      }
+      <div className={css.table}>
         <div>
           {headerGroups.map(headerGroup => (
             <div {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <div {...column.getHeaderProps()} className={css.headerCell}>
-                  {column.render('Header')}
-                </div>
-              ))}
+              {headerGroup.headers.map(column => {
+                const columnHeaderProps = destructuredWidthFunction(column.getHeaderProps);
+                return (
+                  <th
+                    {...columnHeaderProps}
+                    className={css.headerCell}
+                  >
+                    {column.render('Header')}
+                  </th>
+                );
+              })}
             </div>
           ))}
         </div>
@@ -74,18 +90,22 @@ const ResizedTable = ({ columns, data, widgetId }) => {
             (row, i) => {
               prepareRow(row);
               return (
-                <div {...row.getRowProps()} className={i % 2 === 0 ? css.evenRow : css.oddRow}>
+                <div
+                  {...row.getRowProps()}
+                  className={i % 2 === 0 ? css.evenRow : css.oddRow}
+                >
                   {row.cells.map((cell, j) => {
+                    const cellProps = destructuredWidthFunction(cell.getCellProps);
                     return (
-                      <div
-                        {...cell.getCellProps()}
+                      <td
+                        {...cellProps}
                         className={css.td}
                       >
                         {cell.render(
                           'Cell',
                           { key: `simple-table-${widgetId}-row-${i}-col-${j}` }
                         )}
-                      </div>
+                      </td>
                     );
                   })}
                 </div>

@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+import css from './DragAndDropFieldArray.css';
 
 /* This component provides a drag and drop list for any array.
  * Must be called as a component of a FieldArray,
@@ -12,7 +15,8 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 const DragAndDropFieldArray = ({
   draggableDivStyle = () => null,
   fields,
-  children
+  children,
+  renderHandle
 }) => {
   const makeOnDragEndFunction = passedFields => result => {
     // dropped outside the list
@@ -22,6 +26,8 @@ const DragAndDropFieldArray = ({
     // Move field to correct place in the list
     passedFields.move(result.source.index, result.destination.index);
   };
+
+  const isRenderHandle = !!renderHandle;
 
   return (
     <>
@@ -47,23 +53,47 @@ const DragAndDropFieldArray = ({
                     };
                     const usePortal = draggableSnapshot.isDragging;
                     const DraggableField = (
+                      // Top level container, can be styled using draggableDivStyle
                       <div
-                        {...draggableDivStyle(draggable)}
                         ref={draggableProvided.innerRef}
-                        data-testid={name}
-                        {...draggableProvided.draggableProps}
-                        {...draggableProvided.dragHandleProps}
-                      >
-                        {children(
-                          name,
-                          index,
-                          {
-                            droppableProvided,
-                            droppableSnapshot
-                          },
-                          draggable,
-                          fields
+                        className={classnames(
+                          css.container,
+                          draggableDivStyle(draggable)
                         )}
+                        {...draggableProvided.draggableProps}
+                        // If renderHandle not passed, make whole row handle
+                        {
+                          ...(!isRenderHandle ?
+                            { ...draggableProvided.dragHandleProps } :
+                            undefined
+                          )
+                        }
+                      >
+                        {/* Handle, only render if renderHandle prop passed */}
+                        {isRenderHandle &&
+                          <div
+                            className={css.handle}
+                            data-testid={name}
+                            {...draggableProvided.dragHandleProps}
+                          >
+                            {renderHandle(name, index)}
+                          </div>
+                        }
+                        {/* Actual dnd content, passed a bunch of props as a function */}
+                        <div
+                          className={css.content}
+                        >
+                          {children(
+                            name,
+                            index,
+                            {
+                              droppableProvided,
+                              droppableSnapshot
+                            },
+                            draggable,
+                            fields
+                          )}
+                        </div>
                       </div>
                     );
 
@@ -90,6 +120,7 @@ DragAndDropFieldArray.propTypes = {
   draggableDivStyle: PropTypes.func,
   fields: PropTypes.object.isRequired,
   children: PropTypes.func,
+  renderHandle: PropTypes.func
 };
 
 export default DragAndDropFieldArray;
