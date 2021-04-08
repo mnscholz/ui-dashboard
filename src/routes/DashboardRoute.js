@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { useOkapiKy } from '@folio/stripes/core';
 
 import Loading from '../components/Dashboard/Loading';
@@ -23,7 +23,7 @@ const DashboardRoute = ({
 
   // Load specific dashboard -- for now will only be DEFAULT
   const [isInitialCallFinished, setInitialCallFinished] = useState(false);
-  const { data: { 0: dashboard } = [], isLoading: dashboardLoading } = useQuery(
+  const { data: { 0: dashboard } = [], isLoading: dashboardLoading, refetch: refetchDashboard } = useQuery(
     ['ui-dashboard', 'dashboardRoute', 'dashboard'],
     async () => {
       // Actually wait for the data to come back.
@@ -35,7 +35,8 @@ const DashboardRoute = ({
 
   // Fetching widgets separately allows us to sort them by weighting on fetch, and maybe paginate later on if necessary
   const { data: widgets, isLoading: widgetsLoading } = useQuery(
-    ['ui-dashboard', 'dashboardRoute', 'widgets'],
+    // We need this to rerun when the dashboard updates
+    ['ui-dashboard', 'dashboardRoute', 'widgets', dashboard],
     () => ky(`servint/widgets/instances/my-widgets?filters=owner.id=${dashboard?.id}&sort=weight;asc&perPage=100`).json(),
     {
       /* Once the dashboard has been fetched, we can then fetch the ordered list of widgets from it */
@@ -47,6 +48,11 @@ const DashboardRoute = ({
     }
   );
 
+  // The DELETE for the widgets
+  const { mutateAsync: deleteWidget } = useMutation(
+    ['ui-dashboard', 'dashboardRoute', 'deleteWidget'],
+    (widgetId) => ky.delete(`servint/widgets/instances/${widgetId}`)
+  );
 
   const handleCreate = () => {
     history.push(`${location.pathname}/create`);
@@ -54,6 +60,16 @@ const DashboardRoute = ({
 
   const handleReorder = () => {
     history.push(`${location.pathname}/editOrder`);
+  };
+
+  const handleWidgetEdit = (id) => {
+    history.push(`${location.pathname}/${id}/edit`);
+  };
+
+  const handleWidgetDelete = (id) => {
+    deleteWidget(id);
+    // Make sure to refetch dashboard when we delete a widget
+    refetchDashboard();
   };
 
   if (dashboardLoading || widgetsLoading) {
@@ -68,6 +84,8 @@ const DashboardRoute = ({
         onChangeDash={setDashName}
         onCreate={handleCreate}
         onReorder={handleReorder}
+        onWidgetDelete={handleWidgetDelete}
+        onWidgetEdit={handleWidgetEdit}
         widgets={widgets}
       />
     );

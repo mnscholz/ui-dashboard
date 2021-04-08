@@ -37,7 +37,8 @@ const submitWithTokens = (widgetConf) => {
     });
     return ({
       name: fc.name,
-      rules: tweakedRules
+      rules: tweakedRules,
+      fieldType: fc.fieldType
     });
   });
   // Set the filter columns to be the new ones including tokens

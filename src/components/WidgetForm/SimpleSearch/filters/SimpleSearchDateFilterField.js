@@ -48,16 +48,15 @@ const SimpleSearchDateFilterField = ({
   return (
     <Row>
       <Col xs={3}>
-        <KeyValue label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.comparator" />}>
-          <Field
-            component={Select}
-            dataOptions={selectifiedComparators}
-            defaultValue={selectifiedComparators[0]?.value}
-            name={`${name}.comparator`}
-            required
-            validate={requiredValidator}
-          />
-        </KeyValue>
+        <Field
+          component={Select}
+          dataOptions={selectifiedComparators}
+          defaultValue={selectifiedComparators[0]?.value}
+          label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.comparator" />}
+          name={`${name}.comparator`}
+          required
+          validate={requiredValidator}
+        />
       </Col>
       <Col xs={3}>
         <KeyValue
@@ -157,9 +156,9 @@ const SimpleSearchDateFilterField = ({
           name={`${name}.offset`}
           type="number"
           validate={value => (
-            parseInt(value, 10) >= 0 ?
-              undefined :
-              <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.offsetMustBePositive" />
+            parseInt(value, 10) < 0 || parseInt(value, 10) > 999 ?
+              <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.offsetValidation" /> :
+              undefined
           )}
         />
       </Col>

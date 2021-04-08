@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
+import { get } from 'lodash';
 
 import { Field, useFormState, useForm } from 'react-final-form';
-
-import { useOkapiKy } from '@folio/stripes/core';
-import { useQuery } from 'react-query';
 
 import {
   Button,
@@ -21,18 +19,23 @@ import {
   TextField
 } from '@folio/stripes/components';
 import { requiredValidator } from '@folio/stripes-erm-components';
-import SimpleSearchForm from './SimpleSearch/SimpleSearchForm';
-import { ErrorComponent } from '../Dashboard/ErrorPage';
 
+import useWidgetDefinition from '../useWidgetDefinition';
 
 const propTypes = {
   data: PropTypes.shape({
+    defId: PropTypes.string,
+    specificWidgetDefinition: PropTypes.object,
     widgetDefinitions: PropTypes.array
   }).isRequired,
   handlers: PropTypes.shape({
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    setDefId: PropTypes.func.isRequired
   }),
+  params: PropTypes.shape({
+    widgetId: PropTypes.string,
+  }).isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool
 };
@@ -40,60 +43,40 @@ const propTypes = {
 // This component should contain the logic to select a widget definition and push on to a specific widgetForm, ie SimpleSearchForm
 const WidgetForm = ({
   data: {
+    defId,
+    params,
     widgetDefinitions = []
   } = {},
   handlers:{
     onClose,
-    onSubmit
+    onSubmit,
+    setDefId
   },
   pristine,
   submitting,
 }) => {
+  const { dirtyFields, values } = useFormState();
+  const { change } = useForm();
+
   /*
-   * Create a callback and trigger variable we can pass through to other forms.
-   * These will be used to clear the relevant sub-forms when definition changes.
+   * Keep the defId up to date, this allows us to keep track of the definition beyond the id
   */
-  const [defChanged, setDefChanged] = useState(false);
-  const toggleDefChange = () => setDefChanged(!defChanged);
+  useEffect(() => {
+    const currentDefId = get(values, 'definition.id');
+    if (currentDefId !== defId) {
+      // Definition has changed at this point
+      setDefId(currentDefId);
+    }
+  }, [defId, setDefId, values]);
 
   // Simple true/false to show/hide modal and then wipe form
   const [confirmWipeFormModalOpen, setConfirmWipeFormModalOpen] = useState(false);
   const [newDef, setNewDef] = useState();
 
-  const ky = useOkapiKy();
-  const { dirtyFields, values } = useFormState();
-  const { change } = useForm();
-
-  // Selected widget definition will be just an id, so fetch full definition again here
-  const { data: specificWidgetDefinition } = useQuery(
-    // Ensure we get a fresh fetch per CREATE/EDIT with values.definition?.id
-    ['ui-dashboard', 'widgetCreateRoute', 'getSpecificWidgetDef', values.definition?.id],
-    () => ky(`servint/widgets/definitions/${values.definition?.id}`).json(),
-    {
-      /* Only run this query if the user has selected a widgetDefinition */
-      enabled: !!values.definition?.id
-    }
-  );
-
-  // This may be (probably will be) versioned in future, keep an eye out for that
-  const getWidgetFormComponent = (widgetDef) => {
-    switch (widgetDef?.type?.name) {
-      case 'SimpleSearch':
-        return (
-          <SimpleSearchForm
-            defChanged={defChanged}
-            specificWidgetDefinition={specificWidgetDefinition}
-            toggleDefChange={toggleDefChange}
-          />
-        );
-      default:
-        return (
-          <ErrorComponent>
-            <FormattedMessage id="ui-dashboard.error.noWidgetFormComponentForType" values={{ widgetType: widgetDef?.type?.name }} />
-          </ErrorComponent>
-        );
-    }
-  };
+  const {
+    specificWidgetDefinition,
+    componentBundle: { WidgetFormComponent }
+  } = useWidgetDefinition(defId);
 
   const renderPaneFooter = () => {
     return (
@@ -126,12 +109,16 @@ const WidgetForm = ({
 
   const changeDefintionAndWipeForm = () => {
     /*
-     * Read proposed definition change from state
-     * Update trigger mechanism for dynamic sub-forms
-     * Change field value
-     * Remove from state
-     */
-    toggleDefChange();
+     * This should control wiping the form when def changes,
+     * so it runs through all fields that aren't name or definition and wipes them
+    */
+    const fieldsToNotWipe = ['definition', 'name'];
+    Object.keys(values).forEach(valueKey => {
+      if (!fieldsToNotWipe.includes(valueKey)) {
+        change(valueKey, undefined);
+      }
+    });
+
     change('definition.id', newDef);
     setNewDef();
   };
@@ -173,6 +160,7 @@ const WidgetForm = ({
                 <Field
                   component={Select}
                   dataOptions={selectifiedWidgetDefs}
+                  disabled={!!params.widgetId}
                   name="definition.id"
                   onChange={e => {
                     // Other than the name/def, are any of the fields dirty?
@@ -196,7 +184,9 @@ const WidgetForm = ({
           </Row>
           {specificWidgetDefinition &&
             // Get specific form component for the selected widgetDefinition
-            getWidgetFormComponent(specificWidgetDefinition)
+            <WidgetFormComponent
+              specificWidgetDefinition={specificWidgetDefinition}
+            />
           }
         </Pane>
       </Paneset>

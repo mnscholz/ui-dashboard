@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import moment from 'moment';
 
@@ -20,6 +20,7 @@ import css from './SimpleSearch.css';
 const SimpleSearch = ({
   widget
 }) => {
+  const intl = useIntl();
   /*
    * IMPORTANT this code uses react-query.
    * At some point after Stripes' Iris release there is a possibility this will be removed in favour of SWR.
@@ -36,7 +37,8 @@ const SimpleSearch = ({
   // We need to pass the stripes object into the pathBuilder, so it can use that for currentUser token
   const stripes = useStripes();
   const { data, dataUpdatedAt, refetch } = useQuery(
-    ['ui-dashboard', 'simpleSearch', widget.id],
+    // If widget.configuration changes, this should refetch
+    ['ui-dashboard', 'simpleSearch', widget.id, widget.configuration],
     () => ky(pathBuilder(widgetDef, widgetConf, stripes)).json()
   );
 
@@ -52,7 +54,21 @@ const SimpleSearch = ({
       return null;
     }
     return (
-      <a className={css.linkText} href={urlLink}>
+      <a
+        aria-label={
+          intl.formatMessage(
+            { id: 'ui-dashboard.simpleSearch.widget.linkTextForWidget' },
+            {
+              linkText: intl.formatMessage(
+                { id: 'ui-dashboard.simpleSearch.widget.linkText' }
+              ),
+              widgetName: widget.name
+            }
+          )
+        }
+        className={css.linkText}
+        href={urlLink}
+      >
         <FormattedMessage id="ui-dashboard.simpleSearch.widget.linkText" />
       </a>
     );
