@@ -6,7 +6,7 @@ import arrayMutators from 'final-form-arrays';
 
 import { useMutation, useQuery } from 'react-query';
 
-import WidgetForm from '../components/WidgetForm/WidgetForm';
+import WidgetForm from '../components/WidgetForm';
 import useWidgetDefinition from '../components/useWidgetDefinition';
 
 /* This name may be a bit of a misnomer, as the route is used for both create AND edit */
@@ -63,8 +63,7 @@ const WidgetCreateRoute = ({
     }
   } = useWidgetDefinition(defId);
 
-  // Set up initialValues for whichever type the edited widget is (or undefined for new widget)
-  let initialValues;
+  let initialValues = {};
   if (widget) {
     initialValues = widgetToInitialValues(widget);
   }
@@ -98,10 +97,18 @@ const WidgetCreateRoute = ({
   };
 
   return (
+    /*
+     * IMPORTANT
+     * DO NOT ENABLE keepDirtyOnReinitialize
+     * This code works by fetching a function which will parse the data
+     * and work out initialValues. Sometimes that function does not load for the first render,
+     * leading to defaultValues being triggered and set for some fields.
+     * In those cases we want a refresh of initialValues to wipe the form,
+     * not remain as dirty values.
+     */
     <Form
       enableReinitialize
       initialValues={initialValues}
-      keepDirtyOnReinitialize
       mutators={arrayMutators}
       navigationCheck
       onSubmit={doTheSubmit}
@@ -113,6 +120,8 @@ const WidgetCreateRoute = ({
             <WidgetForm
               data={{
                 defId,
+                // Pass initialValues in here so we can manually initialize when they're fetched
+                initialValues,
                 params,
                 widgetDefinitions
               }}

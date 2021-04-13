@@ -35,7 +35,7 @@ const propTypes = {
   }),
   params: PropTypes.shape({
     widgetId: PropTypes.string,
-  }).isRequired,
+  }),
   pristine: PropTypes.bool,
   submitting: PropTypes.bool
 };
@@ -107,7 +107,7 @@ const WidgetForm = ({
     );
   };
 
-  const changeDefintionAndWipeForm = () => {
+  const changeDefinitionAndWipeForm = () => {
     /*
      * This should control wiping the form when def changes,
      * so it runs through all fields that aren't name or definition and wipes them
@@ -202,7 +202,7 @@ const WidgetForm = ({
           setNewDef();
         }}
         onConfirm={() => {
-          changeDefintionAndWipeForm();
+          changeDefinitionAndWipeForm();
           setConfirmWipeFormModalOpen(!confirmWipeFormModalOpen);
         }}
         open={confirmWipeFormModalOpen}

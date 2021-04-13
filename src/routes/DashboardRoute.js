@@ -8,7 +8,7 @@ import { useOkapiKy } from '@folio/stripes/core';
 import Loading from '../components/Dashboard/Loading';
 import Dashboard from '../components/Dashboard/Dashboard';
 
-import { ErrorPage } from '../components/Dashboard/ErrorPage';
+import { ErrorPage } from '../components/ErrorComponents';
 
 
 const DashboardRoute = ({
@@ -67,9 +67,10 @@ const DashboardRoute = ({
   };
 
   const handleWidgetDelete = (id) => {
-    deleteWidget(id);
-    // Make sure to refetch dashboard when we delete a widget
-    refetchDashboard();
+    deleteWidget(id).then(() => (
+      // Make sure to refetch dashboard when we delete a widget
+      refetchDashboard()
+    ));
   };
 
   if (dashboardLoading || widgetsLoading) {
