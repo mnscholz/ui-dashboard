@@ -53,6 +53,7 @@ const SimpleSearchFilterRuleField = ({
         filterComponent={filterComponent}
         filterComponentProps={filterComponentProps}
         input={{ name }}
+        resourceType={resource}
         selectifiedComparators={selectifiedComparators}
       />
     );
@@ -65,7 +66,6 @@ const SimpleSearchFilterRuleField = ({
         filterComponent={filterComponent}
         filterComponentProps={filterComponentProps}
         input={{ name }}
-        resource={resource}
         selectifiedComparators={selectifiedComparators}
       />
     );

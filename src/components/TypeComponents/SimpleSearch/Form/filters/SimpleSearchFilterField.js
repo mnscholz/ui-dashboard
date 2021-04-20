@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
@@ -21,11 +21,7 @@ import SimpleSearchFilterRuleArray from './SimpleSearchFilterRuleArray';
 
 const SimpleSearchFilterField = ({ filterColumns, id, input: { name } }) => {
   const { values } = useFormState();
-  console.log("VALUES: %o", values);
   const { change } = useForm();
-
-  // Resource variable for UUID case
-  const [resource, setResource] = useState({});
 
   // Create values for available filters. If label available use that, else use name
   const selectifiedFilterNames = [{ value: '', label: '', disabled: true }, ...filterColumns.map(fc => ({ value: fc.name, label: fc.label ?? fc.name }))];
@@ -64,13 +60,7 @@ const SimpleSearchFilterField = ({ filterColumns, id, input: { name } }) => {
       if (LookupComponent) {
         filterComponentProps = {
           id,
-          onResourceSelected: r => {
-            setResource(r);
-            change(`${name}.filterValue`, r.id);
-          },
           resourceName: get(values, `${name}.resourceType`),
-          resource,
-          setResource
         };
         FilterComponent = LookupComponent;
       } else {
@@ -134,6 +124,7 @@ const SimpleSearchFilterField = ({ filterColumns, id, input: { name } }) => {
 
 SimpleSearchFilterField.propTypes = {
   filterColumns: PropTypes.arrayOf(PropTypes.object),
+  id: PropTypes.string,
   input: PropTypes.shape({
     name: PropTypes.string.isRequired
   }).isRequired,
