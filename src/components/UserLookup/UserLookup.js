@@ -29,7 +29,7 @@ const propTypes = {
   resource: PropTypes.object
 };
 
-const UserLookupComponent = ({ disabled, id, input: { name, value }, onResourceSelected, resource }) => {
+const UserLookup = ({ disabled, id, input: { name, value }, onResourceSelected, resource }) => {
   let triggerButton = useRef(null);
 
   const renderLinkUserButton = v => (
@@ -152,6 +152,6 @@ const UserLookupComponent = ({ disabled, id, input: { name, value }, onResourceS
   );
 };
 
-UserLookupComponent.propTypes = propTypes;
+UserLookup.propTypes = propTypes;
 
-export default UserLookupComponent;
+export default UserLookup;
