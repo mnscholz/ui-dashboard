@@ -1,17 +1,15 @@
 import React, { lazy, Suspense } from 'react';
 import { Switch } from 'react-router-dom';
-import { Route } from '@folio/stripes/core';
+import { Route, coreEvents, HandlerManager } from '@folio/stripes/core';
+
 import PropTypes from 'prop-types';
-import setUpRegistry from './setUpRegistry';
+import Registry from './Registry';
 
 const Settings = lazy(() => import('./settings'));
 const DashboardsRoute = lazy(() => import('./routes/DashboardsRoute'));
 const DashboardRoute = lazy(() => import('./routes/DashboardRoute'));
 const DashboardOrderRoute = lazy(() => import('./routes/DashboardOrderRoute'));
 const WidgetCreateRoute = lazy(() => import('./routes/WidgetCreateRoute'));
-
-// DO THIS BEFORE APP
-setUpRegistry();
 
 const App = (appProps) => {
   const { actAs, match: { path } } = appProps;
@@ -34,6 +32,34 @@ const App = (appProps) => {
       </Switch>
     </Suspense>
   );
+};
+
+// TODO if we can figure out how to obtain modules object outside of a component, use the following directly
+/*   modules.handler.forEach(mod => {
+    const m = mod.getModule();
+    console.log("M: %o", m)
+    const handler = m[mod.handlerName]
+    console.log ("handler: %o", handler)
+    handler('ui-dashboard-registry-load', stripes, Registry)
+  }); */
+
+App.eventHandler = (event, stripes, data) => {
+  if (event === coreEvents.LOGIN) {
+    return (() => (
+      <HandlerManager
+        data={Registry}
+        event="ui-dashboard-registry-load"
+        stripes={stripes}
+      />
+    ));
+  }
+
+  if (event === 'ui-dashboard-registry-load') {
+    // DATA should contain registry singleton
+    data.registerResource('widget');
+    return null;
+  }
+  return null;
 };
 
 App.propTypes = {
