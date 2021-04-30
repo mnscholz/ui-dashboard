@@ -1,6 +1,7 @@
 # Change history for ui-dashboard
 
 ## 1.0.0 In progress
+* Added framework for Registry. ERM-1611
 * Code Cleanup. ERM-1625
   * final-form config changes and form bug fixes
   * Overhauled file structure

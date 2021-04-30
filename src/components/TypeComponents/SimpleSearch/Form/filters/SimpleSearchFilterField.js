@@ -15,9 +15,13 @@ import {
   TextField
 } from '@folio/stripes/components';
 
+import Registry from '../../../../../Registry';
+import UserLookup from '../../../../UserLookup';
+
+
 import SimpleSearchFilterRuleArray from './SimpleSearchFilterRuleArray';
 
-const SimpleSearchFilterField = ({ filterColumns, input: { name } }) => {
+const SimpleSearchFilterField = ({ filterColumns, id, input: { name } }) => {
   const { values } = useFormState();
   const { change } = useForm();
 
@@ -37,18 +41,42 @@ const SimpleSearchFilterField = ({ filterColumns, input: { name } }) => {
       filterComponentProps = {
         dataOptions: selectedFilterColumn.enumValues.map(ev => ({ value: ev.value, label: ev.label ?? ev.value })),
         // Set an initialValue where none was set previously
-        defaultValue: selectedFilterColumn.enumValues[0].value
+        defaultValue: selectedFilterColumn.enumValues[0].value,
+        id
       };
       FilterComponent = Select;
       break;
     case 'Date':
       filterComponentProps = {
         backendDateStandard: 'YYYY-MM-DD',
+        id,
         timeZone:'UTC',
         usePortal: true
       };
       FilterComponent = Datepicker;
       break;
+
+    case 'UUID': {
+      const resourceReg = Registry.getResource(selectedFilterColumn.resource);
+
+      let LookupComponent = resourceReg?.getLookupComponent();
+
+      if (selectedFilterColumn.resource === 'user' && !LookupComponent) {
+        // USER does not have a lookup component in the registry, fallback to known user lookup for now
+        LookupComponent = UserLookup;
+      }
+
+      if (LookupComponent) {
+        filterComponentProps = {
+          id,
+          resourceName: get(values, `${name}.resourceType`),
+        };
+        FilterComponent = LookupComponent;
+      } else {
+        FilterComponent = TextField;
+      }
+      break;
+    }
     default:
       FilterComponent = TextField;
       break;
@@ -57,6 +85,7 @@ const SimpleSearchFilterField = ({ filterColumns, input: { name } }) => {
   // Keep the hidden form field up to date
   useEffect(() => {
     change(`${name}.fieldType`, selectedFilterColumn?.valueType);
+    change(`${name}.resourceType`, selectedFilterColumn?.resource);
   }, [change, name, selectedFilterColumn]);
 
   return (
@@ -82,6 +111,11 @@ const SimpleSearchFilterField = ({ filterColumns, input: { name } }) => {
           render={() => (null)}
           value={selectedFilterColumn?.valueType}
         />
+        <Field
+          name={`${name}.resourceType`}
+          render={() => (null)}
+          value={selectedFilterColumn?.resource}
+        />
       </KeyValue>
       {selectedFilter &&
         <FieldArray
@@ -99,6 +133,7 @@ const SimpleSearchFilterField = ({ filterColumns, input: { name } }) => {
 
 SimpleSearchFilterField.propTypes = {
   filterColumns: PropTypes.arrayOf(PropTypes.object),
+  id: PropTypes.string,
   input: PropTypes.shape({
     name: PropTypes.string.isRequired
   }).isRequired,
