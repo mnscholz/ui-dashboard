@@ -90,7 +90,7 @@
     "dashboardHeader.reorder": "Modifier l'ordre d'affichage des widgets",
     "dashboard.reorderForm.paneTitle": "Modifier le tableau de bord",
     "dashboard.reorderForm.widget.widgetname": "Nom du widget",
-    "simpleSearchForm.filters.dateFilterField.absoluteValueWarning": "An absolute date or date token must be input",
+    "simpleSearchForm.filters.dateFilterField.absoluteValueWarning": "Une date absolue ou un jeton de date doit être saisi",
     "simpleSearchForm.filters.uuidFilterField.absoluteValueWarning": "Un UUID utilisateur ou un jeton utilisateur actuel doit être entré",
     "simpleSearchForm.results.column": "Colonne",
     "simpleSearchForm.results.label": "Intitulé",
