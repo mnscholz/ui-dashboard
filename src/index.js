@@ -43,22 +43,28 @@ const App = (appProps) => {
     handler('ui-dashboard-registry-load', stripes, Registry)
   }); */
 
+// Track whether we've already fired the dash event with a boolean
+let registryEventFired = false;
 App.eventHandler = (event, stripes, data) => {
   if (event === coreEvents.LOGIN) {
-    return (() => (
-      <HandlerManager
-        data={Registry}
-        event="ui-dashboard-registry-load"
-        stripes={stripes}
-      />
-    ));
+    // Ensure event only fired once
+    if (registryEventFired === false) {
+      registryEventFired = true;
+      return () => (
+        <HandlerManager
+          data={Registry}
+          event="ui-dashboard-registry-load"
+          stripes={stripes}
+        />
+      );
+    }
   }
 
   if (event === 'ui-dashboard-registry-load') {
     // DATA should contain registry singleton
     data.registerResource('widget');
-    return null;
   }
+
   return null;
 };
 
