@@ -76,11 +76,11 @@ const Dashboard = ({ dashboardId, onCreate, onReorder, onWidgetDelete, onWidgetE
       </div>
       <ConfirmationModal
         buttonStyle="danger"
-        confirmLabel={<FormattedMessage id="ui-dashboard.dashboard.remove" />}
+        confirmLabel={<FormattedMessage id="ui-dashboard.dashboard.delete" />}
         data-test-delete-confirmation-modal
-        heading={<FormattedMessage id="ui-dashboard.dashboard.removeWidget" />}
+        heading={<FormattedMessage id="ui-dashboard.dashboard.deleteWidget" />}
         id="delete-agreement-confirmation"
-        message={<SafeHTMLMessage id="ui-dashboard.dashboard.removeWidgetConfirmMessage" values={{ name: widgetToDelete.name }} />}
+        message={<SafeHTMLMessage id="ui-dashboard.dashboard.deleteWidgetConfirmMessage" values={{ name: widgetToDelete.name }} />}
         onCancel={() => {
           setShowDeleteConfirmationModal(false);
           setWidgetToDelete({});
