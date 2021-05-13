@@ -20,14 +20,14 @@
   "dashboard.reorderForm.widget.widgetname": "Widget name",
 
   "dashboard.deleteWidget": "Delete widget",
-  "dashboard.delet": "Delete",
+  "dashboard.delete": "Delete",
   "dashboard.deleteWidgetConfirmMessage": "Widget <strong>{name}</strong> will be <strong>deleted</strong>.",
 
   "widgetHeader.actionsButtonLabel": "Actions for widget: {widgetName}",
   "widgetHeader.editButtonLabel": "Edit widget: {widgetName}",
   "widgetHeader.editButton": "Edit",
-  "widgetHeader.deleteButtonLabel": "delete widget: {widgetName}",
-  "widgetHeader.deleteButton": "delete",
+  "widgetHeader.deleteButtonLabel": "Delete widget: {widgetName}",
+  "widgetHeader.deleteButton": "Delete",
   "widgetFooter.refreshButtonLabel": "Refresh widget: {widgetName}",
 
   "widgetForm.createWidget": "New widget",
