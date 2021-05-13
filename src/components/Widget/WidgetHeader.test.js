@@ -45,7 +45,7 @@ describe('WidgetHeader', () => {
 
     userEvent.click(actionsButton);
     expect(getByRole('button', { name: /Edit widget: Widget Test 1/i })).toBeInTheDocument();
-    expect(getByRole('button', { name: /Remove widget: Widget Test 1/i })).toBeInTheDocument();
+    expect(getByRole('button', { name: /Delete widget: Widget Test 1/i })).toBeInTheDocument();
   });
 
 
