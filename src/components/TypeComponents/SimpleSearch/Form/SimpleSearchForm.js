@@ -9,13 +9,16 @@ import {
 
 import SimpleSearchFilterArray from './filters/SimpleSearchFilterArray';
 import SimpleSearchResults from './results/SimpleSearchResults';
+import SimpleSearchMatches from './matches/SimpleSearchMatches';
 import SimpleSearchConfigurableProperties from './configurableProperties/SimpleSearchConfigurableProperties';
 
 const SimpleSearchForm = ({
-  specificWidgetDefinition,
+  isEdit,
+  specificWidgetDefinition
 }) => {
   const {
     configurableProperties,
+    matches,
     filters: {
       columns: filterColumns = []
     } = {},
@@ -26,7 +29,6 @@ const SimpleSearchForm = ({
       columns: sortColumns = []
     } = {},
   } = specificWidgetDefinition?.definition;
-
   const initialAccordionState = {
     filters: true,
     results: true,
@@ -39,6 +41,13 @@ const SimpleSearchForm = ({
         {/* This component now only displays url link stuff, consider renaming */}
         <SimpleSearchConfigurableProperties
           configurableProperties={configurableProperties}
+        />
+        <SimpleSearchMatches
+          data={{
+            isEdit,
+            matches,
+          }}
+          id="simple-search-form-matches"
         />
         <FieldArray
           addButtonId="simple-search-form-add-filter-button"
@@ -66,6 +75,7 @@ const SimpleSearchForm = ({
 };
 
 SimpleSearchForm.propTypes = {
+  isEdit: PropTypes.bool,
   specificWidgetDefinition: PropTypes.object
 };
 
