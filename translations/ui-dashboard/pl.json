@@ -150,5 +150,6 @@
     "simpleSearchForm.filters.filterField.comparator.DateTime.isNotNull": "is not null",
     "simpleSearchForm.filters.filterField.comparator.DateTime.isSet": "is set",
     "simpleSearchForm.filters.filterField.comparator.DateTime.isNotSet": "is not set",
-    "simpleSearch.widget.noResultFound": "No results found"
+    "simpleSearch.widget.noResultFound": "No results found",
+    "simpleSearchForm.matches": "Search"
 }
