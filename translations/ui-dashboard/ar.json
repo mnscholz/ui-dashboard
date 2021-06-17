@@ -151,5 +151,5 @@
     "simpleSearchForm.filters.filterField.comparator.DateTime.isSet": "تم تعيينه",
     "simpleSearchForm.filters.filterField.comparator.DateTime.isNotSet": "لم يتم تعيينه",
     "simpleSearch.widget.noResultFound": "لم يتم العثور على نتائج",
-    "simpleSearchForm.matches": "Search"
+    "simpleSearchForm.matches": "بحث"
 }
