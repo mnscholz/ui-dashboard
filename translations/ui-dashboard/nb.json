@@ -151,5 +151,6 @@
     "simpleSearchForm.filters.filterField.comparator.DateTime.isSet": "is set",
     "simpleSearchForm.filters.filterField.comparator.DateTime.isNotSet": "is not set",
     "simpleSearch.widget.noResultFound": "No results found",
-    "simpleSearchForm.matches": "Search"
+    "simpleSearchForm.matches": "Search",
+    "appMenu.keyboardShortcuts": "Keyboard shortcuts"
 }
