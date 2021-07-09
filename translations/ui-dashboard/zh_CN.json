@@ -152,5 +152,7 @@
     "simpleSearchForm.filters.filterField.comparator.DateTime.isNotSet": "未设置",
     "simpleSearch.widget.noResultFound": "找不到结果",
     "simpleSearchForm.matches": "搜索",
-    "appMenu.keyboardShortcuts": "Keyboard shortcuts"
+    "appMenu.keyboardShortcuts": "Keyboard shortcuts",
+    "simpleSearchForm.filters.filterField.rule.and": "AND",
+    "widgetForm.editWidget": "Edit - {widgetName}"
 }
