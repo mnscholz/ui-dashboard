@@ -117,7 +117,7 @@
     "simpleSearchForm.filters.filterField.comparator.Date.isNotSet": "is not set",
     "simpleSearchForm.filters.filterField.comparator.String.isSet": "is set",
     "simpleSearchForm.filters.filterField.comparator.String.isNotSet": "is not set",
-    "simpleSearchForm.filters.filterField.comparator.Link.==": "is",
+    "simpleSearchForm.filters.filterField.comparator.Link.==": "es",
     "simpleSearchForm.filters.filterField.comparator.Link.!=": "is not",
     "simpleSearchForm.filters.filterField.comparator.Link.=~": "contains",
     "simpleSearchForm.filters.filterField.comparator.Link.!~": "does not contain",
