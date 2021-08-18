@@ -103,7 +103,7 @@
     "simpleSearchForm.results.columns": "Columnas",
     "simpleSearchForm.results.resultDeleteAria": "Quitar columna {index}",
     "widgetHeader.actionsButtonLabel": "Acciones para el widget: {widgetName}",
-    "widgetHeader.editButtonLabel": "Editar widget {nombre del widget]",
+    "widgetHeader.editButtonLabel": "Editar widget: {widgetName}",
     "widgetHeader.editButton": "Editar",
     "widgetHeader.deleteButtonLabel": "Borrar widget: {nombre del widget}",
     "widgetHeader.deleteButton": "Borrar",
