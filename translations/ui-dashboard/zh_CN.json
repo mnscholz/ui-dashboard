@@ -154,7 +154,6 @@
     "simpleSearchForm.filters.dateFilterField.invalidDate": "以{dateFormat}格式输入日期以继续",
     "simpleSearchForm.filters.dateFilterField.beforeToday": "今天之前",
     "simpleSearchForm.filters.dateFilterField.afterToday": "今天之后",
-    "simpleSearchForm.filters.dateFilterField.when": "时间",
     "simpleSearchForm.filters.dateFilterField.fixedDate": "固定日期",
     "simpleSearchForm.filters.dateFilterField.number": "数字",
     "simpleSearchForm.filters.dateFilterField.infoPopover": "日期可以是可变的或固定的。对于可变日期，在第一个单选按钮中设置数字、时间单位和时间三个字段的值。使用第二个单选按钮输入固定日期。",
@@ -168,5 +167,8 @@
     "simpleSearch.widget.noResultsFound": "No results found",
     "simpleSearch.contentError": "Content cannot be displayed. ",
     "simpleSearch.errorDetails": "Error details",
-    "simpleSearch.errorDescription": "The following occurred, preventing the display of content in the widget:"
+    "simpleSearch.errorDescription": "The following occurred, preventing the display of content in the widget:",
+    "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Before or after today",
+    "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Length of time",
+    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date"
 }

@@ -154,7 +154,6 @@
     "simpleSearchForm.filters.dateFilterField.invalidDate": "Por favor, ingrese una fecha en el formato {dateFormat} para continuar.",
     "simpleSearchForm.filters.dateFilterField.beforeToday": "Antes de hoy",
     "simpleSearchForm.filters.dateFilterField.afterToday": "Después de hoy",
-    "simpleSearchForm.filters.dateFilterField.when": "Cuándo",
     "simpleSearchForm.filters.dateFilterField.fixedDate": "Fecha fijada.",
     "simpleSearchForm.filters.dateFilterField.number": "Número",
     "simpleSearchForm.filters.dateFilterField.infoPopover": "La fecha puede ser variable o fija. Para una fecha variable, establezca los valores de los tres campos Número, Unidad de tiempo y Cuándo en el primer botón de opción. Use el segundo botón de radio para ingresar una fecha fija.",
@@ -168,5 +167,8 @@
     "simpleSearch.widget.noResultsFound": "No se han encontrado resultados.",
     "simpleSearch.contentError": "No se puede mostrar el contenido.",
     "simpleSearch.errorDetails": "Detalles del error",
-    "simpleSearch.errorDescription": "Ocurrió lo siguiente, que impidió la visualización de contenido en el widget:"
+    "simpleSearch.errorDescription": "Ocurrió lo siguiente, que impidió la visualización de contenido en el widget:",
+    "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Before or after today",
+    "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Length of time",
+    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date"
 }

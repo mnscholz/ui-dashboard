@@ -154,7 +154,6 @@
     "simpleSearchForm.filters.dateFilterField.invalidDate": "Veuillez saisir une date au format {dateFormat} pour continuer",
     "simpleSearchForm.filters.dateFilterField.beforeToday": "Avant aujourd'hui",
     "simpleSearchForm.filters.dateFilterField.afterToday": "After today",
-    "simpleSearchForm.filters.dateFilterField.when": "When",
     "simpleSearchForm.filters.dateFilterField.fixedDate": "Date fixe",
     "simpleSearchForm.filters.dateFilterField.number": "Nombre",
     "simpleSearchForm.filters.dateFilterField.infoPopover": "The Date can be variable or fixed. For a variable date set the values of the three fields Number, Time unit and When in the first radio button. Use the second radio button to enter a fixed date.",
@@ -168,5 +167,8 @@
     "simpleSearch.widget.noResultsFound": "Aucun résultat trouvé",
     "simpleSearch.contentError": "Le contenu ne peut pas être affiché.",
     "simpleSearch.errorDetails": "Détails de l'erreur",
-    "simpleSearch.errorDescription": "The following occurred, preventing the display of content in the widget:"
+    "simpleSearch.errorDescription": "The following occurred, preventing the display of content in the widget:",
+    "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Before or after today",
+    "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Length of time",
+    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date"
 }
