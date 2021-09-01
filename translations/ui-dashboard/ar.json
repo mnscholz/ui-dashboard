@@ -33,14 +33,14 @@
     "simpleSearchForm.configurableProperties.urlLink": "رابط عنوان URL",
     "simpleSearch.widget.nFoundBadge": "تم العثور على {total}",
     "simpleSearch.widget.linkText": "ربط إلى تطبيق",
-    "simpleSearchForm.filters.dateFilterField.today": "اليوم (متغير)",
+    "simpleSearchForm.filters.dateFilterField.today": "اليوم",
     "simpleSearchForm.filters.dateFilterField.days": "أيام",
     "simpleSearchForm.filters.dateFilterField.weeks": "أسابيع",
     "simpleSearchForm.filters.dateFilterField.months": "أشهر",
     "simpleSearchForm.filters.dateFilterField.years": "سنوات",
     "simpleSearchForm.filters.dateFilterField.offset": "أوفسيت",
     "simpleSearchForm.filters.dateFilterField.offsetMethod": "طريقة الأوفسيت",
-    "simpleSearchForm.filters.dateFilterField.timeUnit": "وحدة زمنية",
+    "simpleSearchForm.filters.dateFilterField.timeUnit": "الوحدة الزمنية",
     "simpleSearchForm.filters.uuidFilterField.currentUser": "أنا (متغير)",
     "simpleSearchForm.filters.filterField.comparator.Date.==": "هو",
     "simpleSearchForm.filters.filterField.comparator.Date.!=": "ليس",
@@ -170,5 +170,5 @@
     "simpleSearch.errorDescription": "حدث ما يلي، مما أدى إلى منع عرض المحتوى في الودجة:",
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Before or after today",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Length of time",
-    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date"
+    "simpleSearchForm.filters.dateFilterField.relativeDate": "التاريخ النسبي"
 }
