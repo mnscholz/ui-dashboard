@@ -156,7 +156,7 @@
     "simpleSearchForm.filters.dateFilterField.afterToday": "今天之后",
     "simpleSearchForm.filters.dateFilterField.fixedDate": "固定日期",
     "simpleSearchForm.filters.dateFilterField.number": "数字",
-    "simpleSearchForm.filters.dateFilterField.infoPopover": "日期可以是可变的或固定的。对于可变日期，在第一个单选按钮中设置数字、时间单位和时间三个字段的值。使用第二个单选按钮输入固定日期。",
+    "simpleSearchForm.filters.dateFilterField.infoPopover": "“日期”可以是相对或固定的。选择第三个单选钮选项以按固定日期筛选。要应用相对日期，选择第一个选项“今天”或第二个选项并设置三个字段的值：“时长”、“时间单位”和“今天之前或之后”。",
     "httpError": "HTTP错误: {errorCode} {errorText}",
     "dashboard.errorDetailsDescription": "发生以下情况，阻止显示小工具中的内容：",
     "dashboard.copyErrorButtonAriaLabel": "复制错误到剪贴板",
