@@ -170,5 +170,6 @@
     "simpleSearch.errorDescription": "Folgendes ist aufgetreten, wodurch die Anzeige von Inhalten im Widget verhindert wurde:",
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Vor oder nach heute",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Länge der Zeit",
-    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relatives Datum"
+    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relatives Datum",
+    "error.duplicateColumn": "Duplicate column, please rectify"
 }

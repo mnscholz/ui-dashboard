@@ -170,5 +170,6 @@
     "simpleSearch.errorDescription": "The following occurred, preventing the display of content in the widget:",
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Before or after today",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Length of time",
-    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date"
+    "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date",
+    "error.duplicateColumn": "Duplicate column, please rectify"
 }
