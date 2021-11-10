@@ -170,5 +170,6 @@
     "simpleSearch.errorDescription": "发生以下情况，阻止显示小工具中的内容：",
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "今天之前或之后",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "时间长度",
-    "simpleSearchForm.filters.dateFilterField.relativeDate": "相对日期"
+    "simpleSearchForm.filters.dateFilterField.relativeDate": "相对日期",
+    "error.duplicateColumn": "Duplicate column, please rectify"
 }
