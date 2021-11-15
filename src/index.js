@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Switch } from 'react-router-dom';
 import { AppContextMenu, Route } from '@folio/stripes/core';
 
@@ -11,7 +11,8 @@ import {
   NavListItem,
   NavListSection,
   checkScope,
-  defaultKeyboardShortcuts,
+  importShortcuts,
+  renameShortcutLabels
 } from '@folio/stripes/components';
 
 import PropTypes from 'prop-types';
@@ -28,6 +29,7 @@ import WidgetEditRoute from './routes/WidgetEditRoute';
 import Settings from './settings';
 
 const App = (appProps) => {
+  const intl = useIntl();
   const { actAs, history, location, match: { path } } = appProps;
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
 
@@ -36,6 +38,15 @@ const App = (appProps) => {
       <Settings {...appProps} />
     );
   }
+
+  const appSpecificShortcuts = importShortcuts(['new', 'edit', 'save', 'expandAllSections', 'collapseAllSections', 'expandOrCollapseAccordion', 'openShortcutModal']);
+
+  const renamedShortcuts = renameShortcutLabels(appSpecificShortcuts,
+    [
+      { 'shortcut': 'new', 'label': intl.formatMessage({ id: 'ui-dashboard.shortcut.new' }) },
+      { 'shortcut': 'edit', 'label': intl.formatMessage({ id: 'ui-dashboard.shortcut.edit' }) },
+      { 'shortcut': 'save', 'label': intl.formatMessage({ id: 'ui-dashboard.shortcut.save' }) },
+    ]);
 
   const goToNew = () => {
     history.push(`${location.pathname}/create`);
@@ -54,7 +65,7 @@ const App = (appProps) => {
 
   return (
     <>
-      <CommandList commands={defaultKeyboardShortcuts}>
+      <CommandList commands={renamedShortcuts}>
         <HasCommand
           commands={shortcuts}
           isWithinScope={checkScope}
@@ -85,7 +96,7 @@ const App = (appProps) => {
       </CommandList>
       {isShortcutsModalOpen && (
         <KeyboardShortcutsModal
-          allCommands={defaultKeyboardShortcuts}
+          allCommands={renamedShortcuts}
           onClose={() => setIsShortcutsModalOpen(false)}
         />
       )}
