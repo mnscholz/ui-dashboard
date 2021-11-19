@@ -171,5 +171,8 @@
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "今天之前或之后",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "时间长度",
     "simpleSearchForm.filters.dateFilterField.relativeDate": "相对日期",
-    "error.duplicateColumn": "Duplicate column, please rectify"
+    "error.duplicateColumn": "Duplicate column, please rectify",
+    "shortcut.new": "Create a new widget",
+    "shortcut.edit": "Edit a widget",
+    "shortcut.save": "Save form changes"
 }

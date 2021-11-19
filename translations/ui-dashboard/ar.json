@@ -171,5 +171,8 @@
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "قبل أو بعد اليوم",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "المدة الزمنية",
     "simpleSearchForm.filters.dateFilterField.relativeDate": "التاريخ النسبي",
-    "error.duplicateColumn": "عمود مكرر، يرجى التصحيح"
+    "error.duplicateColumn": "عمود مكرر، يرجى التصحيح",
+    "shortcut.new": "إنشاء ودجة جديدة",
+    "shortcut.edit": "تحرير الودجة",
+    "shortcut.save": "حفظ تغييرات النموذج"
 }

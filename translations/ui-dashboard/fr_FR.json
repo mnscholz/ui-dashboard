@@ -171,5 +171,8 @@
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Before or after today",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Length of time",
     "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date",
-    "error.duplicateColumn": "Duplicate column, please rectify"
+    "error.duplicateColumn": "Duplicate column, please rectify",
+    "shortcut.new": "Créer un nouveau widget",
+    "shortcut.edit": "Modifier un widget",
+    "shortcut.save": "Save form changes"
 }

@@ -171,5 +171,8 @@
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "오늘 전후",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "시간의 길이",
     "simpleSearchForm.filters.dateFilterField.relativeDate": "상대 날짜",
-    "error.duplicateColumn": "Duplicate column, please rectify"
+    "error.duplicateColumn": "Duplicate column, please rectify",
+    "shortcut.new": "Create a new widget",
+    "shortcut.edit": "Edit a widget",
+    "shortcut.save": "Save form changes"
 }
