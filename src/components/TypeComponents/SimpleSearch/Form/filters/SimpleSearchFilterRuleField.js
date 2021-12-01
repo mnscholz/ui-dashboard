@@ -6,13 +6,13 @@ import { Field, useFormState, useForm } from 'react-final-form';
 
 import {
   Col,
+  InfoPopover,
   KeyValue,
   Row,
   Select
 } from '@folio/stripes/components';
 import { get } from 'lodash';
 import { requiredValidator } from '@folio/stripes-erm-components';
-import SimpleSearchDateFilterField from './SimpleSearchDateFilterField';
 import SimpleSearchUUIDFilterField from './SimpleSearchUUIDFilterField';
 import isComparatorSpecialCase from '../../../utilities';
 
@@ -42,23 +42,12 @@ const SimpleSearchFilterRuleField = ({
     }
   }, [change, name, selectifiedComparators, values]);
 
-  const comparator = get(values, `${name}.comparator`);
-  const comparatorIsSpecialCase = isComparatorSpecialCase(comparator);
+  const comparatorIsSpecialCase = isComparatorSpecialCase(get(values, `${name}.comparator`));
+
+
+  let ruleKVLabel = <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.value" />;
 
   // If type is Date or UUID then we need to do some extra work, send to specific components
-  if (valueType === 'Date' || valueType === 'DateTime') {
-    return (
-      <SimpleSearchDateFilterField
-        comparators={comparators}
-        dateTime={valueType === 'DateTime'}
-        filterComponent={filterComponent}
-        filterComponentProps={filterComponentProps}
-        input={{ name }}
-        selectifiedComparators={selectifiedComparators}
-      />
-    );
-  }
-
   if (valueType === 'UUID') {
     return (
       <SimpleSearchUUIDFilterField
@@ -72,10 +61,26 @@ const SimpleSearchFilterRuleField = ({
     );
   }
 
+  if (valueType === 'Date') {
+    ruleKVLabel =
+      <>
+        <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.date" />
+        <InfoPopover
+          buttonProps={{
+            'disabled': comparatorIsSpecialCase
+          }}
+          content={
+            <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.infoPopover" />
+          }
+          placement="top"
+        />
+      </>;
+  }
+
   return (
     <Row>
       {selectifiedComparators.length > 0 &&
-        <Col xs={6}>
+        <Col xs={3}>
           <KeyValue label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.comparator" />}>
             <Field
               autoFocus
@@ -88,8 +93,8 @@ const SimpleSearchFilterRuleField = ({
           </KeyValue>
         </Col>
       }
-      <Col xs={6}>
-        <KeyValue label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.value" />}>
+      <Col xs={9}>
+        <KeyValue label={ruleKVLabel}>
           <Field
             {...filterComponentProps}
             component={filterComponent}

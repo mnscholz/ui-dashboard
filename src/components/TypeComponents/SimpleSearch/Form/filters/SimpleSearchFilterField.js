@@ -8,28 +8,21 @@ import { get } from 'lodash';
 import { Field, useForm, useFormState } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 
-import { useModules, useStripes } from '@folio/stripes/core';
-
 import {
   Checkbox,
-  Datepicker,
   KeyValue,
   Select,
   TextField
 } from '@folio/stripes/components';
 
 import { Registry } from '@folio/handler-stripes-registry';
-import UserLookup from '../../../../UserLookup';
-
 
 import SimpleSearchFilterRuleArray from './SimpleSearchFilterRuleArray';
+import { errorValidation, TokenDatePicker, TokenUserPicker } from '../../../../TokenPickers';
 
 const SimpleSearchFilterField = ({ filterColumns, id, input: { name } }) => {
   const { values } = useFormState();
   const { change } = useForm();
-
-  const stripes = useStripes();
-  const { plugin: modulePlugins } = useModules();
 
   // Create values for available filters. If label available use that, else use name
   const selectifiedFilterNames = [{ value: '', label: '', disabled: true }, ...filterColumns.map(fc => ({ value: fc.name, label: fc.label ?? fc.name }))];
@@ -52,48 +45,36 @@ const SimpleSearchFilterField = ({ filterColumns, id, input: { name } }) => {
       };
       FilterComponent = Select;
       break;
+    // Currently treat DateTime as if it were a Date -- datetime handling to come
     case 'Date':
-      filterComponentProps = {
-        backendDateStandard: 'YYYY-MM-DD',
-        id,
-        timeZone: 'UTC',
-        usePortal: true
-      };
-      FilterComponent = Datepicker;
-      break;
     case 'DateTime':
       filterComponentProps = {
-        dateFieldProps: {
-          backendDateStandard: 'YYYY-MM-DD',
-          id,
-          timeZone: 'UTC',
-          usePortal: true
-        }
+        backendDateStandard: 'YYYY-MM-DD',
+        validate: errorValidation
       };
-      FilterComponent = Datepicker;
+      FilterComponent = TokenDatePicker;
       break;
     case 'UUID': {
       const resourceReg = Registry.getResource(selectedFilterColumn.resource);
+      FilterComponent = resourceReg?.getLookupComponent() ?? TextField;
 
-      let LookupComponent = resourceReg?.getLookupComponent();
+      const resourceName = get(values, `${name}.resourceType`);
+      filterComponentProps = {
+        id,
+        validate: (value) => {
+          if (!value) {
+            return <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.uuidFilterField.emptyWarning" />;
+          }
+          return undefined;
+        }
+      };
 
-      // TODO isEnabled for plugins/modules is something that should be exposed, perhaps via the registry
-      const findUserPluginAvailable = !!modulePlugins?.find(p => p.pluginType === 'find-user') &&
-        stripes.hasPerm('module.ui-plugin-find-user.enabled');
-
-      if (selectedFilterColumn.resource === 'user' && !LookupComponent && findUserPluginAvailable) {
-        // USER does not have a lookup component in the registry, fallback to known user lookup for now
-        LookupComponent = UserLookup;
-      }
-
-      if (LookupComponent) {
+      if (resourceName === 'user') {
+        FilterComponent = TokenUserPicker;
         filterComponentProps = {
           id,
-          resourceName: get(values, `${name}.resourceType`),
+          validate: errorValidation
         };
-        FilterComponent = LookupComponent;
-      } else {
-        FilterComponent = TextField;
       }
       break;
     }

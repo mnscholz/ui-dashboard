@@ -14,8 +14,6 @@ import {
 
 import { get } from 'lodash';
 import { requiredValidator } from '@folio/stripes-erm-components';
-import RelativeOrAbsolute from '../../../../RelativeOrAbsolute';
-import css from './filters.css';
 import isComparatorSpecialCase from '../../../utilities';
 
 
@@ -23,7 +21,6 @@ const SimpleSearchUUIDFilterField = ({
   filterComponent,
   filterComponentProps,
   input: { name },
-  resourceType,
   selectifiedComparators
 }) => {
   const { initialValues, values } = useFormState();
@@ -32,92 +29,28 @@ const SimpleSearchUUIDFilterField = ({
   const comparator = get(values, `${name}.comparator`);
   const comparatorIsSpecialCase = isComparatorSpecialCase(comparator);
 
-  const relOrAbsValue = get(values, `${name}.relativeOrAbsolute`);
-
   // Resource variable for UUID case
-  const [resource, setResource] = useState(get(initialValues, `${name}.resource`) ?? {});
+  const [resource, setResource] = useState(get(initialValues, `${name}.resource`));
   // This field is used when editing the widget, to display existing resource data
   useEffect(() => {
     change(`${name}.resource`, resource);
   }, [change, name, resource]);
 
-  useEffect(() => {
-    // Ensure relative vs absolute is always  in the case resource is user
-    if (resourceType === 'user' && relOrAbsValue === undefined) {
-      change(`${name}.relativeOrAbsolute`, 'relative');
-    }
-  }, [change, name, relOrAbsValue, resourceType, values]);
-
-  // Set up onResourceSelected and resource for the plugin to handle
-  filterComponentProps.onResourceSelected = r => {
-    setResource(r);
-    change(`${name}.filterValue`, r.id);
+  // Set up filterComponentProps with resource specific stuff
+  const fcp = {
+    ...filterComponentProps,
+    onResourceSelected: r => {
+      setResource(r);
+      change(`${name}.filterValue`, r.id);
+    }, // For any lookups that are not users
+    onUserSelected: r => setResource(r), // for users
+    resource,
   };
-  filterComponentProps.resource = resource;
-
-  if (resourceType === 'user') {
-    return (
-      <>
-        <Row>
-          <Col xs={6}>
-            <KeyValue label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.comparator" />}>
-              <Field
-                autoFocus
-                component={Select}
-                dataOptions={selectifiedComparators}
-                name={`${name}.comparator`}
-                required
-                validate={requiredValidator}
-              />
-            </KeyValue>
-          </Col>
-          <Col xs={6}>
-            <KeyValue
-              label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.uuid" />}
-            >
-              <RelativeOrAbsolute
-                absoluteComponent={
-                  <Field
-                    {...filterComponentProps}
-                    component={filterComponent}
-                    disabled={
-                      comparatorIsSpecialCase ||
-                      relOrAbsValue === 'relative'
-                    }
-                    name={`${name}.filterValue`}
-                    validate={(value, allValues) => {
-                      if (get(allValues, `${name}.relativeOrAbsolute`) === 'absolute' && !value) {
-                        return <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.uuidFilterField.absoluteValueWarning" />;
-                      }
-                      return undefined;
-                    }}
-                  />
-                }
-                disabled={comparatorIsSpecialCase}
-                name={name}
-                relativeComponent={
-                  <div className={relOrAbsValue === 'absolute' ? css.absoluteSelected : null}>
-                    <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.uuidFilterField.currentUser" />
-                  </div>
-                }
-                validateFields={[`${name}.filterValue`]}
-              />
-            </KeyValue>
-          </Col>
-        </Row>
-        <Field
-          name={`${name}.resource`}
-          render={() => (null)}
-          value={resource}
-        />
-      </>
-    );
-  }
 
   return (
     <>
       <Row>
-        <Col xs={6}>
+        <Col xs={3}>
           <KeyValue label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.filterField.comparator" />}>
             <Field
               autoFocus
@@ -129,21 +62,15 @@ const SimpleSearchUUIDFilterField = ({
             />
           </KeyValue>
         </Col>
-        <Col xs={6}>
+        <Col xs={9}>
           <KeyValue
             label={<FormattedMessage id="ui-dashboard.simpleSearchForm.filters.dateFilterField.uuid" />}
           >
             <Field
-              {...filterComponentProps}
+              {...fcp}
               component={filterComponent}
               disabled={comparatorIsSpecialCase}
               name={`${name}.filterValue`}
-              validate={(value) => {
-                if (!value) {
-                  return <FormattedMessage id="ui-dashboard.simpleSearchForm.filters.uuidFilterField.emptyWarning" />;
-                }
-                return undefined;
-              }}
             />
           </KeyValue>
         </Col>
