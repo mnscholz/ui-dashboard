@@ -171,8 +171,17 @@
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "今天之前或之后",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "时间长度",
     "simpleSearchForm.filters.dateFilterField.relativeDate": "相对日期",
-    "error.duplicateColumn": "Duplicate column, please rectify",
-    "shortcut.new": "Create a new widget",
-    "shortcut.edit": "Edit a widget",
-    "shortcut.save": "Save form changes"
+    "error.duplicateColumn": "重复列，请更正",
+    "shortcut.new": "创建新小工具",
+    "shortcut.edit": "编辑小工具",
+    "shortcut.save": "保存单更改",
+    "tokenDatePicker.validation.invalidDate": "Please enter a date in the format {dateFormat} to continue",
+    "tokenDatePicker.validation.invalidOffset": "Offset must be greater than or equal to 0 and no larger than 999",
+    "tokenDatePicker.fixedDate": "Fixed date",
+    "tokenDatePicker.relativeDate": "Relative date",
+    "tokenDatePicker.today": "Today (relative)",
+    "tokenUserPicker.me": "Me (relative)",
+    "tokenUserPicker.user": "Fixed user",
+    "tokenUserPicker.validation.invalidUser": "Please choose a user to continue",
+    "simpleSearchForm.filters.uuidFilterField.emptyWarning": "Please enter a valid UUID to continue"
 }
