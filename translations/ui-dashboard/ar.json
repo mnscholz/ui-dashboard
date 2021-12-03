@@ -174,5 +174,14 @@
     "error.duplicateColumn": "عمود مكرر، يرجى التصحيح",
     "shortcut.new": "إنشاء ودجة جديدة",
     "shortcut.edit": "تحرير الودجة",
-    "shortcut.save": "حفظ تغييرات النموذج"
+    "shortcut.save": "حفظ تغييرات النموذج",
+    "tokenDatePicker.validation.invalidDate": "يرجى إدخال تاريخ بتنسيق {dateFormat} للمتابعة",
+    "tokenDatePicker.validation.invalidOffset": "يجب أن يكون الأوفسيت أكبر من أو يساوي 0 ولا يزيد عن 999",
+    "tokenDatePicker.fixedDate": "التاريخ المثبت",
+    "tokenDatePicker.relativeDate": "التاريخ النسبي",
+    "tokenDatePicker.today": "اليوم (نسبي)",
+    "tokenUserPicker.me": "أنا (نسبي)",
+    "tokenUserPicker.user": "مستخدم ثابت",
+    "tokenUserPicker.validation.invalidUser": "يرجى اختيار مستخدم للمتابعة",
+    "simpleSearchForm.filters.uuidFilterField.emptyWarning": "Please enter a valid UUID to continue"
 }
