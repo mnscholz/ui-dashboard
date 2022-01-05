@@ -175,13 +175,13 @@
     "shortcut.new": "创建新小工具",
     "shortcut.edit": "编辑小工具",
     "shortcut.save": "保存单更改",
-    "tokenDatePicker.validation.invalidDate": "Please enter a date in the format {dateFormat} to continue",
-    "tokenDatePicker.validation.invalidOffset": "Offset must be greater than or equal to 0 and no larger than 999",
-    "tokenDatePicker.fixedDate": "Fixed date",
-    "tokenDatePicker.relativeDate": "Relative date",
-    "tokenDatePicker.today": "Today (relative)",
-    "tokenUserPicker.me": "Me (relative)",
-    "tokenUserPicker.user": "Fixed user",
-    "tokenUserPicker.validation.invalidUser": "Please choose a user to continue",
-    "simpleSearchForm.filters.uuidFilterField.emptyWarning": "Please enter a valid UUID to continue"
+    "tokenDatePicker.validation.invalidDate": "以{dateFormat}格式输入日期以继续",
+    "tokenDatePicker.validation.invalidOffset": "偏移量必须大于或等于0且不大于999",
+    "tokenDatePicker.fixedDate": "固定日期",
+    "tokenDatePicker.relativeDate": "相对日期",
+    "tokenDatePicker.today": "今天（相对）",
+    "tokenUserPicker.me": "我（相对）",
+    "tokenUserPicker.user": "固定用户",
+    "tokenUserPicker.validation.invalidUser": "请选择用户以继续",
+    "simpleSearchForm.filters.uuidFilterField.emptyWarning": "请输入有效UUID以继续"
 }
