@@ -1,4 +1,5 @@
 # Change history for ui-dashboard
+## 2.2.0 In progress
 
 ## 2.1.0 2022-03-02
   * ERM-1927 Cannot select options in option switcher in widget config
