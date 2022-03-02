@@ -32,7 +32,7 @@ const propTypes = {
       widgetId: PropTypes.string,
     }),
     specificWidgetDefinition: PropTypes.object,
-    widgetDefinitions: PropTypes.array
+    widgetDefinitions: PropTypes.arrayOf(PropTypes.object)
   }).isRequired,
   handlers: PropTypes.shape({
     onClose: PropTypes.func.isRequired,
