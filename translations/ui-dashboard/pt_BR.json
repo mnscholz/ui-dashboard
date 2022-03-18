@@ -171,17 +171,17 @@
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Antes ou depois de hoje",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Duração de tempo",
     "simpleSearchForm.filters.dateFilterField.relativeDate": "Data relativa",
-    "error.duplicateColumn": "Duplicate column, please rectify",
+    "error.duplicateColumn": "Duplicar Coluna, por favor retifique",
     "shortcut.new": "Criar um novo widget",
     "shortcut.edit": "Editar um widget",
     "shortcut.save": "Salvar as alterações do formulário",
-    "tokenDatePicker.validation.invalidDate": "Please enter a date in the format {dateFormat} to continue",
-    "tokenDatePicker.validation.invalidOffset": "Offset must be greater than or equal to 0 and no larger than 999",
+    "tokenDatePicker.validation.invalidDate": "Favor inserir uma data no formato {dateFormat} para continuar",
+    "tokenDatePicker.validation.invalidOffset": "A compensação deve ser maior ou igual a 0 e não maior que 999",
     "tokenDatePicker.fixedDate": "Data fixa",
     "tokenDatePicker.relativeDate": "Data relativa",
     "tokenDatePicker.today": "Hoje (relativo)",
     "tokenUserPicker.me": "Eu (relativo)",
     "tokenUserPicker.user": "Usuário fixo",
     "tokenUserPicker.validation.invalidUser": "Escolha um usuário para continuar",
-    "simpleSearchForm.filters.uuidFilterField.emptyWarning": "Please enter a valid UUID to continue"
+    "simpleSearchForm.filters.uuidFilterField.emptyWarning": "Por favor, digite uma UUID válida para continuar"
 }
