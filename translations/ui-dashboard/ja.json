@@ -96,7 +96,7 @@
     "error.noDashboardsForUser": "このユーザーにはダッシュボードが存在しません。",
     "error.noWidgetComponentForType": "No widget component for type: {widgetType}",
     "error.noWidgetFormComponentForType": "No widget form component for type: {widgetType}",
-    "canvas.actions": "Actions",
+    "canvas.actions": "アクション",
     "dashboard.reorderForm.dragAndDropHandleAria": "{widgetName} （ {index} ）の順序を変更する",
     "simpleSearchForm.filters.dateFilterField.date": "Date",
     "simpleSearchForm.filters.dateFilterField.uuid": "UUID",
