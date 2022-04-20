@@ -171,7 +171,7 @@
     "simpleSearchForm.filters.dateFilterField.beforeOrAfterToday": "Before or after today",
     "simpleSearchForm.filters.dateFilterField.lengthOfTime": "Length of time",
     "simpleSearchForm.filters.dateFilterField.relativeDate": "Relative date",
-    "error.duplicateColumn": "Duplicate column, please rectify",
+    "error.duplicateColumn": "Duplicitní sloupec, opravte prosím",
     "shortcut.new": "Create a new widget",
     "shortcut.edit": "Edit a widget",
     "shortcut.save": "Save form changes",
