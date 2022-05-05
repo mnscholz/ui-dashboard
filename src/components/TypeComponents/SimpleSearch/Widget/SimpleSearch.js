@@ -110,7 +110,7 @@ const SimpleSearch = ({
     }
 
     if (widgetsLoading) {
-     return <span className={css.spinner}><Spinner /></span>;
+      return <span className={css.spinner}><Spinner /></span>;
     }
 
     if (!data?.results?.length) {
