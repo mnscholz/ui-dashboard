@@ -112,7 +112,7 @@
     "simpleSearch.widget.linkTextForWidget": "{linkText} para widget: {widgetName}",
     "dashboard.deleteWidget": "Eliminar widget",
     "dashboard.delete": "Delete",
-    "dashboard.deleteWidgetConfirmMessage": "El widget <strong>{nombre}</strong> será <strong>eliminado</strong>.",
+    "dashboard.deleteWidgetConfirmMessage": "El widget <strong>{name}</strong> será <strong>eliminado</strong>.",
     "simpleSearchForm.filters.filterField.comparator.Date.isSet": "is set",
     "simpleSearchForm.filters.filterField.comparator.Date.isNotSet": "is not set",
     "simpleSearchForm.filters.filterField.comparator.String.isSet": "is set",

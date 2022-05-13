@@ -102,7 +102,7 @@
     "simpleSearchForm.filters.dateFilterField.uuid": "UUID",
     "simpleSearchForm.results.columns": "欄位",
     "simpleSearchForm.results.resultDeleteAria": "移除欄位 {index}",
-    "widgetHeader.actionsButtonLabel": "widget 的操作",
+    "widgetHeader.actionsButtonLabel": "widget 的操作: {widgetName}",
     "widgetHeader.editButtonLabel": "編輯 widget: {widgetName}",
     "widgetHeader.editButton": "編輯",
     "widgetHeader.deleteButtonLabel": "刪除 widget: {widgetName}",
