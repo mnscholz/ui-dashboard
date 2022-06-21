@@ -96,7 +96,7 @@
     "error.noDashboardsForUser": "No dashboards exist for this user.",
     "error.noWidgetComponentForType": "No widget component for type: {widgetType}",
     "error.noWidgetFormComponentForType": "No widget form component for type: {widgetType}",
-    "canvas.actions": "Actions",
+    "canvas.actions": "Acciones",
     "dashboard.reorderForm.dragAndDropHandleAria": "Cambiar el orden de {widgetName} ({index})",
     "simpleSearchForm.filters.dateFilterField.date": "Date",
     "simpleSearchForm.filters.dateFilterField.uuid": "UUID",
