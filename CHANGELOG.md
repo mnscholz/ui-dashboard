@@ -1,7 +1,10 @@
 # Change history for ui-dashboard
-## 2.2.0 In progress
+## 2.2.0 2022-07-04
+  * ERM-2122 Remove Dashboard icon in settings section
   * ERM-2107 / ERM-2085 Refactor away from react-intl-safe-html
   * ERM-2097 Replace babel-eslint with @babel/eslint-parser
+  * ERM-2081 Implement loading/spinner to avoid display of "An error occurred. No widget component for type"
+  * ERM-2073 Agreement/license links missing in Dashboard widgets.
 
 ## 2.1.0 2022-03-02
   * ERM-1927 Cannot select options in option switcher in widget config
