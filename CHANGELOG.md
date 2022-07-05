@@ -1,17 +1,24 @@
 # Change history for ui-dashboard
-## 2.2.0 In progress
+## 2.3.0 In progress
+
+## 2.2.0 2022-07-04
+  * ERM-2122 Remove Dashboard icon in settings section
+  * ERM-2107 / ERM-2085 Refactor away from react-intl-safe-html
+  * ERM-2097 Replace babel-eslint with @babel/eslint-parser
+  * ERM-2081 Implement loading/spinner to avoid display of "An error occurred. No widget component for type"
+  * ERM-2073 Agreement/license links missing in Dashboard widgets.
 
 ## 2.1.0 2022-03-02
   * ERM-1927 Cannot select options in option switcher in widget config
   * ERM-1899 Add Save and Close validation
   * ERM-1894 Upgrade `@folio/react-intl-safe-html` for compatibility with `@folio/stripes` `v7`.
   * ERM-1852 Dashboard: End date filter: make the Date form control inactive when the Comparator = "Is set" or "Is not set"
-  * ERM-1792, ERM-1855 UX improvements for Dashboard. 
+  * ERM-1792, ERM-1855 UX improvements for Dashboard.
   * ERM-1791 Dashboard: Make the "Edit widget display order" menu option inactive when less then 2 widgets exist
   * ERM-1761 Dashboard: Apply keyboard shortcuts modal guidelines
   * ERM-1704 Dashboard: columns are being reset to default when repositioned using drag and drop
   * ERM-1688 Dashboard: On "New" simple search widget, populate one column by default
-  * ERM-1687 Dashboard: Prevent columns being added more than once in a simple search widget 
+  * ERM-1687 Dashboard: Prevent columns being added more than once in a simple search widget
 
 ## 2.0.0 2021-10-07
   * Upgrade to stripes v7
