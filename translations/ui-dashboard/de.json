@@ -85,7 +85,7 @@
     "simpleSearchForm.filters.filterField.comparator.UUID.isNull": "ist null",
     "simpleSearchForm.filters.filterField.comparator.UUID.isNotNull": "ist nicht null",
     "loading": "Wird geladen",
-    "dashboardHeader.reorder": "Widget-Anzeigereihenfolge bearbeiten",
+    "dashboardHeader.reorder": "Anzeigereihenfolge der Widgets bearbeiten",
     "dashboard.reorderForm.paneTitle": "Dashboard bearbeiten",
     "dashboard.reorderForm.widget.widgetname": "Widget-Name",
     "simpleSearchForm.filters.uuidFilterField.absoluteValueWarning": "Eine Benutzer-UUID oder ein aktuelles Benutzer-Token muss eingegeben werden",
