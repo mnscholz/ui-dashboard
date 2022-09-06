@@ -1,0 +1,19 @@
+@import '@folio/stripes-components/lib/variables';
+
+/* Why isn't this an icon in users??? */
+.inactiveAppIcon {
+  /* -webkit-filter: grayscale(100%); */
+  filter: hue-rotate(196deg) grayscale(100);
+}
+
+.error {
+  color: var(--error)
+}
+
+.warn {
+  color: var(--warn)
+}
+
+.marginBottom0 {
+  margin-bottom: 0;
+}

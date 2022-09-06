@@ -12,11 +12,13 @@ import css from './Dashboard.css';
 import { ErrorModal } from '../ErrorComponents';
 import { Widget } from '../Widget';
 import useWidgetDefinition from '../useWidgetDefinition';
+import DashboardAccessInfo from './DashboardAccessInfo';
 
 const propTypes = {
   dashboardId: PropTypes.string.isRequired,
   onCreate: PropTypes.func.isRequired,
-  onReorder: PropTypes.func.isRequired,
+  onReorder: PropTypes.func,
+  onUserAccess: PropTypes.func,
   onWidgetDelete: PropTypes.func.isRequired,
   onWidgetEdit: PropTypes.func.isRequired,
   widgets: PropTypes.arrayOf(PropTypes.object),
@@ -26,6 +28,7 @@ const Dashboard = ({
   dashboardId,
   onCreate,
   onReorder,
+  onUserAccess,
   onWidgetDelete,
   onWidgetEdit,
   widgets
@@ -104,17 +107,25 @@ const Dashboard = ({
 
   const dashboardContents = () => {
     if (!widgets?.length) {
-      return <NoWidgets />;
+      return (
+        <>
+          <DashboardAccessInfo dashId={dashboardId} />
+          <NoWidgets />
+        </>
+      );
     }
     return (
-      <div className={css.widgetsContainer}>
-        {widgets.map(w => (
-          <RenderWidget
-            key={`widget-${w.id}`}
-            widget={w}
-          />
-        ))}
-      </div>
+      <>
+        <DashboardAccessInfo dashId={dashboardId} />
+        <div className={css.widgetsContainer}>
+          {widgets.map(w => (
+            <RenderWidget
+              key={`widget-${w.id}`}
+              widget={w}
+            />
+          ))}
+        </div>
+      </>
     );
   };
 
@@ -123,8 +134,10 @@ const Dashboard = ({
       <div className={css.dashboard}>
         <DashboardHeader
           key={`dashboard-header-${dashboardId}`}
+          dashId={dashboardId}
           onCreate={onCreate}
           onReorder={widgets?.length > 1 ? onReorder : null}
+          onUserAccess={onUserAccess}
         />
         <div className={css.dashboardContent}>{dashboardContents()}</div>
       </div>

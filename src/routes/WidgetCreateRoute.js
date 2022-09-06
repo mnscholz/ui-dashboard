@@ -9,7 +9,6 @@ import { useMutation, useQuery } from 'react-query';
 import WidgetForm from '../components/WidgetForm';
 import getComponentsFromType from '../components/getComponentsFromType';
 
-
 const WidgetCreateRoute = ({
   history,
   match: {
@@ -89,6 +88,7 @@ const WidgetCreateRoute = ({
           <form onSubmit={handleSubmit}>
             <WidgetForm
               data={{
+                dashId: params.dashId,
                 // Pass initialValues in here so we can manually initialize when they're fetched
                 initialValues,
                 params,

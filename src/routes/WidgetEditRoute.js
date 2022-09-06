@@ -45,6 +45,7 @@ const WidgetEditRoute = ({
   );
   const [selectedDefinition, setSelectedDef] = useState();
 
+
   useEffect(() => {
     // Widget may need a render cycle to be fetched, if and when it does get fetched set selectedDef to it
     if (widget) {
@@ -117,6 +118,7 @@ const WidgetEditRoute = ({
           <form onSubmit={handleSubmit}>
             <WidgetForm
               data={{
+                dashId: params.dashId,
                 // Pass initialValues in here so we can manually initialize when they're fetched
                 initialValues,
                 name: widget?.name,
