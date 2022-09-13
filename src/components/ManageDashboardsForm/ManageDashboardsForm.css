@@ -1,0 +1,18 @@
+@import '@folio/stripes-components/lib/variables.css';
+
+.colStyles {
+  align-self: center;
+  height: auto;
+  margin-bottom: 0;
+}
+
+.colFlexCentre {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.radioButton {
+  align-self: center;
+}

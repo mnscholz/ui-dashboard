@@ -20,8 +20,8 @@ import {
 } from '@folio/stripes/components';
 
 import DragAndDropFieldArray from '../DragAndDropFieldArray';
-import css from './ReorderForm.css';
-import { DashboardAccessInfo } from '../Dashboard';
+import css from '../DragAndDropFieldArray/DragAndDropFieldArray.css';
+import DashboardAccessInfo from '../DashboardAccessInfo';
 
 const ReorderForm = ({
   dashboard: {
@@ -79,7 +79,7 @@ const ReorderForm = ({
 
   const getDraggableDivStyle = (draggable) => {
     return (classnames(
-      css.draggableBox,
+      css.defaultDraggableBox,
       draggable.draggableProvided.draggableProps.style,
       { [css.pickedUp]: draggable.draggableSnapshot.isDragging }
     ));
@@ -117,7 +117,7 @@ const ReorderForm = ({
             footer={renderPaneFooter()}
             id="pane-reorder-form"
             onClose={onClose}
-            paneTitle={<FormattedMessage id="ui-dashboard.dashboard.reorderForm.paneTitle" />}
+            paneTitle={<FormattedMessage id="ui-dashboard.reorderWidgets" />}
           >
             <DashboardAccessInfo dashId={dashId} />
             <Layout className="marginTopHalf">
@@ -125,7 +125,7 @@ const ReorderForm = ({
                 component={DragAndDropFieldArray}
                 draggableDivStyle={getDraggableDivStyle}
                 name="widgets"
-                renderHandle={(name, index) => (
+                renderHandle={({ name, index }) => (
                   <Icon
                     ariaLabel={
                   intl.formatMessage(
@@ -137,8 +137,8 @@ const ReorderForm = ({
                   />
                 )}
               >
-                {(name) => {
-                  return widgetNameFromName(name);
+                {({ item }) => {
+                  return item?.name;
                 }}
               </FieldArray>
             </Layout>

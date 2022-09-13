@@ -21,10 +21,12 @@ import PropTypes from 'prop-types';
 // see also https://folio-project.slack.com/archives/CAN13SWBF/p1580423284014600
 // and https://folio-project.slack.com/archives/CAYCU07SN/p1612187220027000
 import DashboardsRoute from './routes/DashboardsRoute';
-import DashboardIdRoute from './routes/DashboardIdRoute';
 import DashboardRoute from './routes/DashboardRoute';
+import DashboardCreateRoute from './routes/DashboardCreateRoute';
+import DashboardEditRoute from './routes/DashboardEditRoute';
 import DashboardAccessRoute from './routes/DashboardAccessRoute';
-import DashboardOrderRoute from './routes/DashboardOrderRoute';
+import DashboardsManageRoute from './routes/DashboardsManageRoute';
+import WidgetOrderRoute from './routes/WidgetOrderRoute';
 import WidgetCreateRoute from './routes/WidgetCreateRoute';
 import WidgetEditRoute from './routes/WidgetEditRoute';
 
@@ -57,6 +59,7 @@ const App = ({ history, location, match: { path } }) => {
     }
   ];
 
+
   return (
     <>
       <CommandList commands={renamedShortcuts}>
@@ -80,16 +83,43 @@ const App = ({ history, location, match: { path } }) => {
             )}
           </AppContextMenu>
           <Switch>
-            <Route component={DashboardIdRoute} path={`${path}/:dashId`}>
-              <Switch>
-                <Route component={WidgetCreateRoute} path={`${path}/:dashId/create`} />
-                <Route component={WidgetEditRoute} path={`${path}/:dashId/:widgetId/edit`} />
-                <Route component={DashboardAccessRoute} path={`${path}/:dashId/userAccess`} />
-                <Route component={DashboardOrderRoute} path={`${path}/:dashId/editOrder`} />
-                <Route component={DashboardRoute} path={`${path}/:dashId`} />
-              </Switch>
+            <Route component={DashboardsRoute} path={`${path}/:dashId?`}>
+              {(dashboardsProps) => {
+                // Pass each inner route all of dashboardsProps
+                const DashboardsRouterRoute = ({ component: Component, path: innerPath }) => (
+                  <Route
+                    path={innerPath}
+                    render={(routeProps) => (
+                      <Component
+                        {...routeProps}
+                        {...dashboardsProps}
+                      />
+                    )}
+                  />
+                );
+
+                DashboardsRouterRoute.propTypes = {
+                  path: PropTypes.string.isRequired,
+                  component: PropTypes.oneOfType([
+                    PropTypes.func,
+                    PropTypes.object,
+                  ])
+                };
+
+                return (
+                  <Switch>
+                    <DashboardsRouterRoute component={DashboardCreateRoute} path={`${path}/:dashId/create`} />
+                    <DashboardsRouterRoute component={DashboardEditRoute} path={`${path}/:dashId/edit`} />
+                    <DashboardsRouterRoute component={WidgetCreateRoute} path={`${path}/:dashId/createWidget`} />
+                    <DashboardsRouterRoute component={WidgetEditRoute} path={`${path}/:dashId/:widgetId/edit`} />
+                    <DashboardsRouterRoute component={DashboardAccessRoute} path={`${path}/:dashId/userAccess`} />
+                    <DashboardsRouterRoute component={DashboardsManageRoute} path={`${path}/:dashId/manageDashboards`} />
+                    <DashboardsRouterRoute component={WidgetOrderRoute} path={`${path}/:dashId/editOrder`} />
+                    <DashboardsRouterRoute component={DashboardRoute} path={`${path}/:dashId`} />
+                  </Switch>
+                );
+              }}
             </Route>
-            <Route component={DashboardsRoute} path={path} />
           </Switch>
         </HasCommand>
       </CommandList>

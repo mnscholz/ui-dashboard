@@ -1,12 +1,12 @@
 @import '@folio/stripes-components/lib/variables.css';
 
-.dashboardHeader {
+.header {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   position: relative;
-  padding: 0 var(--gutter-static);
+  padding: var(--gutter-static) var(--gutter-static) 0;
   min-height: var(--control-min-size-touch);
   
   z-index: 1;

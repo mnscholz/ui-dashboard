@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import css from './DragAndDropFieldArray.css';
@@ -14,6 +15,7 @@ import css from './DragAndDropFieldArray.css';
  */
 const DragAndDropFieldArray = ({
   draggableDivStyle = () => null,
+  getDragHandleProps = () => {},
   fields,
   children,
   renderHandle
@@ -73,26 +75,29 @@ const DragAndDropFieldArray = ({
                         {isRenderHandle &&
                           <div
                             className={css.handle}
+                            data-handle
                             data-testid={name}
                             {...draggableProvided.dragHandleProps}
+                            {...getDragHandleProps({ name, index, item: fields.value[index] })}
                           >
-                            {renderHandle(name, index)}
+                            {renderHandle({ name, index, item: fields.value[index] })}
                           </div>
                         }
                         {/* Actual dnd content, passed a bunch of props as a function */}
                         <div
                           className={css.content}
                         >
-                          {children(
+                          {children({
                             name,
                             index,
-                            {
+                            droppable: {
                               droppableProvided,
                               droppableSnapshot
                             },
                             draggable,
-                            fields
-                          )}
+                            fields,
+                            item: fields.value[index]
+                          })}
                         </div>
                       </div>
                     );
@@ -117,9 +122,10 @@ const DragAndDropFieldArray = ({
 };
 
 DragAndDropFieldArray.propTypes = {
+  children: PropTypes.func,
   draggableDivStyle: PropTypes.func,
   fields: PropTypes.object.isRequired,
-  children: PropTypes.func,
+  getDragHandleProps: PropTypes.func,
   renderHandle: PropTypes.func
 };
 
