@@ -126,12 +126,12 @@ const Header = ({
 
     return (
       <>
-        <Headline faded margin="none">
+        <Headline faded margin="none" size="small">
           {dashName}
         </Headline>
         {dashboardActions}
         <Layout className="marginTop1" />
-        <Headline faded margin="none">
+        <Headline faded margin="none" size="small">
           <FormattedMessage id="ui-dashboard.allDashboards" />
         </Headline>
         {allDashboardActions}
