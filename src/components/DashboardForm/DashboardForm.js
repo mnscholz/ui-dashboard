@@ -1,22 +1,27 @@
 import PropTypes from 'prop-types';
 
 import { FormattedMessage } from 'react-intl';
+import { Field, useFormState } from 'react-final-form';
+
+import { AppIcon } from '@folio/stripes/core';
 
 import {
   Button,
   Col,
+  HasCommand,
   InfoPopover,
   Pane,
   PaneFooter,
   Paneset,
   Row,
   TextArea,
-  TextField
+  TextField,
+  checkScope,
 } from '@folio/stripes/components';
-import { AppIcon } from '@folio/stripes/core';
-import { Field, useFormState } from 'react-final-form';
 
 import { composeValidators as compose, requiredValidator as required } from '@folio/stripes-erm-components';
+
+import DashboardMultipleUserInfo from '../DashboardMultipleUserInfo';
 
 // Constant for linting
 const MAX_DASHBOARD_NAME_LENGTH = 25;
@@ -29,14 +34,16 @@ const maxLength = (value) => {
 };
 
 const DashboardForm = ({
+  dashboardUsers = [],
   handlers: {
     onClose,
     onSubmit
   },
   pristine,
-  submitting,
+  submitting
 }) => {
   const { values } = useFormState();
+
   const renderPaneFooter = () => {
     return (
       <PaneFooter
@@ -66,57 +73,77 @@ const DashboardForm = ({
     );
   };
 
-  return (
-    <Paneset>
-      <Pane
-        appIcon={<AppIcon app="dashboard" />}
-        centerContent
-        defaultWidth="100%"
-        dismissible
-        footer={renderPaneFooter()}
-        id="pane-dashboard-form"
-        onClose={onClose}
-        paneTitle={
-          values?.id ?
-            <FormattedMessage id="ui-dashboard.editDashboard" /> :
-            <FormattedMessage id="ui-dashboard.newDashboard" />
+  const shortcuts = [
+    {
+      name: 'save',
+      handler: (e) => {
+        e.preventDefault();
+        if (!pristine && !submitting) {
+          onSubmit();
         }
-      >
-        <Row>
-          <Col xs={3}>
-            <Field
-              component={TextField}
-              label={
-                <>
-                  <FormattedMessage id="ui-dashboard.dashboard.name" />
-                  <InfoPopover
-                    content={<FormattedMessage id="ui-dashboard.dashboard.name.info" />}
-                  />
-                </>
-              }
-              maxLength={25}
-              name="name"
-              required
-              validate={compose(
-                required,
-                maxLength
-              )}
-            />
-          </Col>
-          <Col xs={6}>
-            <Field
-              component={TextArea}
-              label={<FormattedMessage id="ui-dashboard.dashboard.description" />}
-              name="description"
-            />
-          </Col>
-        </Row>
-      </Pane>
-    </Paneset>
+      }
+    }
+  ];
+
+  return (
+    <HasCommand
+      commands={shortcuts}
+      isWithinScope={checkScope}
+      scope={document.body}
+    >
+      <Paneset>
+        <Pane
+          appIcon={<AppIcon app="dashboard" />}
+          centerContent
+          defaultWidth="100%"
+          dismissible
+          footer={renderPaneFooter()}
+          id="pane-dashboard-form"
+          onClose={onClose}
+          paneTitle={
+            values?.id ?
+              <FormattedMessage id="ui-dashboard.editDashboard" /> :
+              <FormattedMessage id="ui-dashboard.newDashboard" />
+          }
+        >
+          <DashboardMultipleUserInfo dashboardUsers={dashboardUsers} />
+          <Row>
+            <Col xs={3}>
+              <Field
+                component={TextField}
+                label={
+                  <>
+                    <FormattedMessage id="ui-dashboard.dashboard.name" />
+                    <InfoPopover
+                      content={<FormattedMessage id="ui-dashboard.dashboard.name.info" />}
+                    />
+                  </>
+                }
+                maxLength={25}
+                name="name"
+                required
+                validate={compose(
+                  required,
+                  maxLength
+                )}
+              />
+            </Col>
+            <Col xs={6}>
+              <Field
+                component={TextArea}
+                label={<FormattedMessage id="ui-dashboard.dashboard.description" />}
+                name="description"
+              />
+            </Col>
+          </Row>
+        </Pane>
+      </Paneset>
+    </HasCommand>
   );
 };
 
 DashboardForm.propTypes = {
+  dashboardUsers: PropTypes.arrayOf(PropTypes.object),
   handlers: PropTypes.shape({
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

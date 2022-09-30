@@ -11,6 +11,7 @@ import getComponentsFromType from '../components/getComponentsFromType';
 
 const WidgetCreateRoute = ({
   dashboard,
+  dashboardUsers = [],
   history,
   match: {
     params
@@ -87,6 +88,7 @@ const WidgetCreateRoute = ({
             <WidgetForm
               data={{
                 dashId: params.dashId,
+                dashboardUsers,
                 // Pass initialValues in here so we can manually initialize when they're fetched
                 initialValues,
                 params,
@@ -117,6 +119,7 @@ WidgetCreateRoute.propTypes = {
   dashboardQuery: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
   }),
+  dashboardUsers: PropTypes.arrayOf(PropTypes.object),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,

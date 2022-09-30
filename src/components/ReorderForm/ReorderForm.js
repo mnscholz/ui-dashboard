@@ -22,11 +22,13 @@ import {
 import DragAndDropFieldArray from '../DragAndDropFieldArray';
 import css from '../DragAndDropFieldArray/DragAndDropFieldArray.css';
 import DashboardAccessInfo from '../DashboardAccessInfo';
+import DashboardMultipleUserInfo from '../DashboardMultipleUserInfo';
 
 const ReorderForm = ({
   dashboard: {
     id: dashId
   } = {},
+  dashboardUsers = [],
   onClose,
   onSubmit,
   pristine,
@@ -117,9 +119,10 @@ const ReorderForm = ({
             footer={renderPaneFooter()}
             id="pane-reorder-form"
             onClose={onClose}
-            paneTitle={<FormattedMessage id="ui-dashboard.reorderWidgets" />}
+            paneTitle={<FormattedMessage id="ui-dashboard.manageWidgets" />}
           >
             <DashboardAccessInfo dashId={dashId} />
+            <DashboardMultipleUserInfo dashboardUsers={dashboardUsers} />
             <Layout className="marginTopHalf">
               <FieldArray
                 component={DragAndDropFieldArray}
@@ -153,6 +156,7 @@ ReorderForm.propTypes = {
   dashboard: PropTypes.shape({
     id: PropTypes.string.isRequired
   }),
+  dashboardUsers: PropTypes.arrayOf(PropTypes.object),
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
@@ -160,5 +164,3 @@ ReorderForm.propTypes = {
 };
 
 export default ReorderForm;
-
-

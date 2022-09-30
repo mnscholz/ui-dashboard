@@ -1,13 +1,16 @@
-import { useOkapiKy } from '@folio/stripes/core';
 import PropTypes from 'prop-types';
 import { Form } from 'react-final-form';
+import { FormattedMessage } from 'react-intl';
 
 import { useMutation, useQueryClient } from 'react-query';
+
+import { useCallout, useOkapiKy } from '@folio/stripes/core';
 
 import DashboardForm from '../components/DashboardForm';
 
 const DashboardEditRoute = ({
   dashboard,
+  dashboardUsers,
   history,
   match: {
     params
@@ -15,13 +18,17 @@ const DashboardEditRoute = ({
 }) => {
   const ky = useOkapiKy();
   const queryClient = useQueryClient();
+  const callout = useCallout();
 
   const { mutateAsync: putDashboard } = useMutation(
     ['ERM', 'Dashboard', params.dashId, 'putDashboard'],
-    (data) => ky.put(`servint/dashboard/${params.dashId}`, { json: data }).then(() => {
-      queryClient.invalidateQueries(['ERM', 'Dashboard', params.dashId]);
-      queryClient.invalidateQueries(['ERM', 'Dashboards']);
-    })
+    (data) => ky.put(`servint/dashboard/${params.dashId}`, { json: data }).json()
+      .then(res => {
+        callout.sendCallout({ message: <FormattedMessage id="ui-dashboard.dashboard.edit.success" values={{ dashboardName: res.name }} /> });
+
+        queryClient.invalidateQueries(['ERM', 'Dashboard', params.dashId]);
+        queryClient.invalidateQueries(['ERM', 'Dashboards']);
+      })
   );
 
   const handleClose = () => {
@@ -44,6 +51,7 @@ const DashboardEditRoute = ({
         return (
           <form onSubmit={handleSubmit}>
             <DashboardForm
+              dashboardUsers={dashboardUsers}
               handlers={{
                 onClose: () => handleClose(),
                 onSubmit: handleSubmit,
@@ -66,6 +74,7 @@ DashboardEditRoute.propTypes = {
   dashboardQuery: PropTypes.shape({
     isLoading: PropTypes.bool.isRequired,
   }),
+  dashboardUsers: PropTypes.arrayOf(PropTypes.object),
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,

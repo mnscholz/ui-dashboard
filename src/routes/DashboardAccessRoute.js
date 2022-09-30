@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 import PropTypes from 'prop-types';
 import { useMutation, useQueryClient } from 'react-query';
@@ -9,16 +10,16 @@ import { Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import arrayMutators from 'final-form-arrays';
 
-import { useOkapiKy } from '@folio/stripes/core';
+import { useCallout, useOkapiKy } from '@folio/stripes/core';
 
 import Loading from '../components/Loading';
-import { useChunkedUsers } from '../components/hooks';
 
 import UserAccessFieldArray from '../components/UserAccessFieldArray';
 
 const SORT_BY_NAME = [['user.personal.lastName', 'user.personal.firstName'], ['asc', 'asc']];
 
 const DashboardAccessRoute = ({
+  areUsersLoading,
   dashboard,
   dashboardQuery: {
     isLoading: dashboardLoading
@@ -36,26 +37,19 @@ const DashboardAccessRoute = ({
 }) => {
   const ky = useOkapiKy();
   const queryClient = useQueryClient();
-
-  // From the dashboard access, we need to fetch user information.
-  // Batch fetch all users
-  const { users, isLoading: areUsersLoading } = useChunkedUsers(dashboardUsers?.map(da => da?.user?.id), { enabled: !dashboardUsersLoading && dashboardUsers.length });
+  const callout = useCallout();
 
   // The POST for setting dashboard users
   const { mutateAsync: postDashUsers } = useMutation(
     ['ERM', 'dashboard', 'postUsers'],
-    (data) => ky.post(`servint/dashboard/${dashId}/users`, { json: data })
+    (data) => ky.post(`servint/dashboard/${dashId}/users`, { json: data }).json()
+      .then(() => {
+        callout.sendCallout({ message: <FormattedMessage id="ui-dashboard.dashboardUsers.edit.success" values={{ dashboardName: dashboard.name }} /> });
+      })
   );
 
-  const mappedDashboardUsers = useMemo(() => (
-    dashboardUsers.map(da => ({
-      access: da.access.value, // Allow us to receive and send refdata value instead of id
-      id: da.id,
-      user: users.find(usr => usr.id === da.user.id) ?? da.user.id, // If this is a flat id then we know we couldn't find the user
-    }))), [dashboardUsers, users]);
-
   // Allow this state to change WITHOUT reinitialising form to enable sorting
-  const [initialAccess, setInitialAccess] = useState(mappedDashboardUsers);
+  const [initialAccess, setInitialAccess] = useState(dashboardUsers);
 
   if (dashboardLoading || areUsersLoading || dashboardUsersLoading) {
     return (
@@ -68,9 +62,12 @@ const DashboardAccessRoute = ({
   };
 
   const doTheSubmit = (values) => {
-    postDashUsers(values.access).then(handleClose);
-    queryClient.invalidateQueries(['ERM', 'Dashboards']);
-    queryClient.invalidateQueries(['ERM', 'Dashboard', 'Users', dashId]);
+    postDashUsers(values.access).then(() => {
+      handleClose();
+
+      queryClient.invalidateQueries(['ERM', 'Dashboards']);
+      queryClient.invalidateQueries(['ERM', 'Dashboard', 'Users', dashId]);
+    });
   };
 
   return (
@@ -88,7 +85,7 @@ const DashboardAccessRoute = ({
 
           const newState = tools.setIn(state, 'formState.values.access', sortedAccess);
           Object.assign(state, newState);
-          setInitialAccess(orderBy(mappedDashboardUsers, SORT_BY_NAME[0], SORT_BY_NAME[1]));
+          setInitialAccess(orderBy(dashboardUsers, SORT_BY_NAME[0], SORT_BY_NAME[1]));
         },
       }}
       navigationCheck
@@ -116,6 +113,7 @@ const DashboardAccessRoute = ({
 export default DashboardAccessRoute;
 
 DashboardAccessRoute.propTypes = {
+  areUsersLoading: PropTypes.bool,
   dashboard: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
