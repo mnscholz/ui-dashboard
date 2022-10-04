@@ -40,7 +40,9 @@ const headerProps = {
 jest.mock('../../hooks', () => ({
   ...jest.requireActual('../../hooks'),
   useDashboardAccess: jest.fn()
-    // Each block has two tests so repeat implementation
+    .mockReturnValueOnce({ hasAccess: () => false, hasAdminPerm: false })
+    .mockReturnValueOnce({ hasAccess: () => false, hasAdminPerm: false })
+    // Each access test block has two tests so repeat implementation
     .mockReturnValueOnce({ hasAccess: () => true, hasAdminPerm: false })
     .mockReturnValueOnce({ hasAccess: () => true, hasAdminPerm: false })
     .mockReturnValueOnce({ hasAccess: (acc) => acc === 'edit', hasAdminPerm: false })
@@ -52,6 +54,47 @@ jest.mock('../../hooks', () => ({
 }));
 
 describe('Header', () => {
+  describe('Header with one dashboard', () => {
+    beforeEach(() => {
+      renderWithIntl(
+        <Router>
+          <Header
+            {
+              ...{
+                ...headerProps,
+                dashboards: [dashboardsAccess[0]]
+              }
+            }
+          />
+        </Router>,
+        translationsProperties
+      );
+    });
+
+    test('renders the name of the dashboard in the header', async () => {
+      await Headline('My dashboard').exists();
+    });
+  });
+
+  describe('Header with one dashboard', () => {
+    beforeEach(() => {
+      renderWithIntl(
+        <Router>
+          <Header
+            {...headerProps}
+          />
+        </Router>,
+        translationsProperties
+      );
+    });
+
+    test('renders a ButtonGroup containing all pertinent dashboards', async () => {
+      await Button('My dashboard').exists();
+      await Button('Test dash 1').exists();
+      await Button('Test dash 3').exists();
+    });
+  });
+
   describe('Header with \'manage\' access', () => {
     beforeEach(() => {
       renderWithIntl(

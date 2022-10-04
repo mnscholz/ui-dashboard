@@ -170,10 +170,17 @@ const Header = ({
     );
   };
 
-  return (
-    <div className={css.header}>
-      <div /> {/* Empty start item so we can get centre/end aligned */}
-      {dashboards?.length > 1 &&
+  const renderHeaderCentre = () => {
+    if (dashboards?.length === 1) {
+      return (
+        <Headline>
+          {dashName}
+        </Headline>
+      );
+    }
+
+    if (dashboards?.length > 1) {
+      return (
         <ButtonGroup>
           {dashboards?.map(dba => (
             <Button
@@ -186,7 +193,16 @@ const Header = ({
             </Button>
           ))}
         </ButtonGroup>
-      }
+      );
+    }
+
+    return (<div />);
+  };
+
+  return (
+    <div className={css.header}>
+      <div /> {/* Empty start item so we can get centre/end aligned */}
+      {renderHeaderCentre()}
       <ActionMenu actionMenu={getActionMenu} />
     </div>
   );
