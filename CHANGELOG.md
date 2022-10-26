@@ -1,6 +1,8 @@
 # Change history for ui-dashboard
 ## 3.0.0 In progress
   * ERM-2312 Managed Dashboards: backend model (refactor to avoid regressions)
+  * Bump to stripes-erm-components ^7.0.0
+
 ## 2.2.0 2022-07-04
   * ERM-2122 Remove Dashboard icon in settings section
   * ERM-2107 / ERM-2085 Refactor away from react-intl-safe-html
