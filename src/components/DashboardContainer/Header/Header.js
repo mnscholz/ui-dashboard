@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom';
 
 import {
   Button,
-  ButtonGroup,
   Headline,
   Icon,
   Layout,
 } from '@folio/stripes/components';
+import { ResponsiveButtonGroup } from '@k-int/stripes-kint-components';
 
 import ActionMenu from '../../ActionMenu';
 import css from './Header.css';
@@ -171,6 +171,9 @@ const Header = ({
   };
 
   const renderHeaderCentre = () => {
+    // it's not the best solution, there should a better way to do this on buttonId
+    const idOrder = dashboards?.map(dshb => dshb.dashboard?.id);
+    const selectedIndex = idOrder.indexOf(currentDashboardId);
     if (dashboards?.length === 1) {
       return (
         <Headline>
@@ -181,18 +184,22 @@ const Header = ({
 
     if (dashboards?.length > 1) {
       return (
-        <ButtonGroup>
-          {dashboards?.map(dba => (
-            <Button
-              key={`clickable-tab-to-dashboard-${dba.dashboard?.id}`}
-              buttonStyle={dba.dashboard?.id === currentDashboardId ? 'primary' : 'default'}
-              marginBottom0
-              to={`/dashboard/${dba.dashboard?.id}`}
-            >
-              {dba.dashboard?.name}
-            </Button>
-          ))}
-        </ButtonGroup>
+        <div className={css.buttonContainer}>
+          <ResponsiveButtonGroup
+            marginBottom0
+            selectedIndex={selectedIndex}
+          >
+            {dashboards?.map(dba => (
+              <Button
+                key={`clickable-tab-to-dashboard-${dba.dashboard?.id}`}
+                marginBottom0
+                to={`/dashboard/${dba.dashboard?.id}`}
+              >
+                {dba.dashboard?.name}
+              </Button>
+            ))}
+          </ResponsiveButtonGroup>
+        </div>
       );
     }
 
