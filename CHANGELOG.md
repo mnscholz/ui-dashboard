@@ -1,4 +1,7 @@
 # Change history for ui-dashboard
+
+## 4.1.0 In progress
+
 ## 4.0.0 2023-02-22
   * ERM-2575 fix deprecated default export from 'zustand' in ui-dashboard
   * ERM-2563 Increment ui-dashboard to Stripes v8
