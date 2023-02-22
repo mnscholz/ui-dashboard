@@ -1,5 +1,12 @@
 # Change history for ui-dashboard
-## 3.1.0 In progress
+## 4.0.0 2023-02-22
+  * ERM-2575 fix deprecated default export from 'zustand' in ui-dashboard
+  * ERM-2563 Increment ui-dashboard to Stripes v8
+  * ERM-2534 Use responsive option group for dashboard names
+  * ERM-2471 Fix dashboard keyboard shortcuts (or shortcuts documentation)
+  * ERM-2460 Bump ui-dashboard erm-components dep
+  * ERM-2314 Managed Dashboards UI: managing available dashboards
+  * ERM-2313 Managed Dashboards UI: managing users access to a dashboard
 
 ## 3.0.3 2022-10-26
   * ERM-2350 When the user only has one dashboard, display the dashboard name in a header
