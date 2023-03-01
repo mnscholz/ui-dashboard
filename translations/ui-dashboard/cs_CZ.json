@@ -176,7 +176,7 @@
     "tokenDatePicker.relativeDate": "Relativní datum",
     "tokenDatePicker.today": "Dnes (příbuzný)",
     "tokenUserPicker.me": "Já (příbuzný)",
-    "tokenUserPicker.user": "Opravený uživatel",
+    "tokenUserPicker.user": "Pevný uživatel",
     "tokenUserPicker.validation.invalidUser": "Vyberte uživatele, ve kterém chcete pokračovat",
     "simpleSearchForm.filters.uuidFilterField.emptyWarning": "Chcete-li pokračovat, zadejte platné UUID",
     "saveAndClose": "Uložit a zavřít",
