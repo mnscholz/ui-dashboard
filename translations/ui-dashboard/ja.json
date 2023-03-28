@@ -120,7 +120,7 @@
     "simpleSearchForm.filters.filterField.comparator.Link.isNotNull": "is not null",
     "simpleSearchForm.filters.filterField.comparator.Link.isSet": "is set",
     "simpleSearchForm.filters.filterField.comparator.Link.isNotSet": "is not set",
-    "simpleSearchForm.filters.filterField.comparator.Array.isEmpty": "No",
+    "simpleSearchForm.filters.filterField.comparator.Array.isEmpty": "いいえ",
     "simpleSearchForm.filters.filterField.comparator.Array.isNotEmpty": "はい",
     "simpleSearchForm.filters.filterField.comparator.Float.isSet": "is set",
     "simpleSearchForm.filters.filterField.comparator.Float.isNotSet": "is not set",
