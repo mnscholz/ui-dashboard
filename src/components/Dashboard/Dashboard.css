@@ -1,24 +1,13 @@
 @import '@folio/stripes-components/lib/variables.css';
 
-/**
- * Pane Content
- */
-
-.dashboardContent {
-  height: 100%;
-  width: 100%;
-  overflow-y: scroll;
-  overflow: auto;
-  outline: 0;
-  padding: var(--gutter-static);
-}
-
 .widgetsContainer {
   display: flex;
+  height: 100%;
+  width: 100%;
   flex-wrap: wrap;
 }
 
-.widget {
+/* .widget {
   min-width: 300px;
   width: 50%;
   padding-bottom: 50%;
@@ -26,4 +15,9 @@
   @media (--small) { width: 100%; }
   @media (--x-large) { width: 33%; }
   @media (min-width: 1921px) { width: 25%; }
+}
+ */
+
+.rotate {
+  transform: rotate(315deg);
 }

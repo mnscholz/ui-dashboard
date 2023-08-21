@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-
-import { useParams } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
+import { useHistory, useParams } from 'react-router-dom';
 
 import {
   Button,
@@ -13,7 +13,7 @@ import { ResponsiveButtonGroup } from '@k-int/stripes-kint-components';
 
 import ActionMenu from '../../ActionMenu';
 import css from './Header.css';
-import { useDashboardAccess } from '../../hooks';
+import { useDashboardAccess } from '../../../hooks';
 
 // This component will render the tab group for dashboards,
 // as well as the joint "dashboard" and "dashboards" actions
@@ -28,9 +28,11 @@ const Header = ({
   onDeleteDashboard, // dashboard
   onEdit, // dashboard
   onManageDashboards, // All dashboards
-  onReorder, // dashboard
   onUserAccess // dashboard
 }) => {
+  const history = useHistory();
+  const queryClient = useQueryClient();
+
   const { hasAccess, hasAdminPerm } = useDashboardAccess(dashId);
   const { dashId: currentDashboardId } = useParams();
 
@@ -50,22 +52,6 @@ const Header = ({
             icon="plus-sign"
           >
             <FormattedMessage id="ui-dashboard.newWidget" />
-          </Icon>
-        </Button>
-      );
-
-      dashboardActions.push(
-        <Button
-          key="clickable-reorderdashboard"
-          buttonStyle="dropdownItem"
-          disabled={!onReorder}
-          id="clickable-reorderdashboard"
-          onClick={onReorder}
-        >
-          <Icon
-            icon="gear"
-          >
-            <FormattedMessage id="ui-dashboard.manageWidgets" />
           </Icon>
         </Button>
       );
@@ -193,7 +179,11 @@ const Header = ({
               <Button
                 key={`clickable-tab-to-dashboard-${dba.dashboard?.id}`}
                 marginBottom0
-                to={`/dashboard/${dba.dashboard?.id}`}
+                onClick={() => {
+                  // Make sure we're going to an up to date version of the dashboard
+                  queryClient.invalidateQueries(['ERM', 'Dashboard', dashId]);
+                  history.push(`/dashboard/${dba.dashboard?.id}`);
+                }}
               >
                 {dba.dashboard?.name}
               </Button>
@@ -231,7 +221,6 @@ Header.propTypes = {
   onDeleteDashboard: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   onManageDashboards: PropTypes.func,
-  onReorder: PropTypes.func,
   onUserAccess: PropTypes.func
 };
 

@@ -2,6 +2,10 @@
 
 .card {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
   background-color: var(--bg);
   border: 1px solid var(--color-border-p2);
   margin-bottom: var(--gutter);
@@ -35,18 +39,22 @@
 }
 
 .widgetContainer {
-  min-width: 300px;
+  /* min-width: 300px;
   width: 50%;
   padding-bottom: 50%;
   padding: var(--gutter-static-two-thirds);
   @media (--small) { width: 100%; }
   @media (--x-large) { width: 33%; }
-  @media (min-width: 1921px) { width: 25%; }
+  @media (min-width: 1921px) { width: 25%; } */
+  height: 100%;
+  width: 100%;
 }
 
 .body {
-  margin-bottom: 0;
-  width: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 /* Card Styles */
@@ -56,4 +64,18 @@
 
 .negative {
   background-color: var(--bg-hover);
+}
+
+.footerContainer {
+  display: flex;
+  width: 100%;
+  padding-right: var(--gutter-static-two-thirds);
+}
+
+/* Come up with better grabbed css later */
+.grabbed {
+  opacity: 75%;
+  cursor: grabbing;
+  z-index: 10000;
+  position: relative;
 }

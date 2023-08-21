@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useParams } from 'react-router-dom';
@@ -13,13 +13,15 @@ import {
 } from '@folio/stripes/components';
 
 import css from './WidgetHeader.css';
-import { useDashboardAccess } from '../hooks';
+import { useDashboardAccess } from '../../hooks';
 
 const WidgetHeader = ({
+  grabbed,
   name,
   onWidgetDelete,
   onWidgetEdit,
   widgetId,
+  widgetMoveHandler
 }) => {
   const intl = useIntl();
   let widgetFocusRef = useRef(null);
@@ -104,10 +106,32 @@ const WidgetHeader = ({
     />
   );
 
+  const internalMoveHandler = useCallback(e => {
+    widgetMoveHandler(e, widgetId);
+  }, [widgetId, widgetMoveHandler]);
+
   return (
     <div
       className={css.header}
     >
+      {(hasAccess('edit') || hasAdminPerm) ?
+        <div
+          aria-grabbed={grabbed}
+          className="widget-drag-handle"
+          id={`widget-drag-handle-${widgetId}`}
+          onKeyDown={internalMoveHandler}
+          role="menuitem" // This feels wrong, but there is no role for handle?
+          style={{
+            cursor: grabbed ? 'grabbing' : 'grab', // 'grabbing'
+            height: 'auto',
+            alignSelf: 'center'
+          }}
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
+        >
+          <Icon icon="drag-drop" />
+        </div> : null
+      }
       <span className={css.widgetTitle}>
         <Headline
           key={`widget-header-headline-${widgetId}`}
@@ -125,10 +149,12 @@ const WidgetHeader = ({
 };
 
 WidgetHeader.propTypes = {
+  grabbed: PropTypes.bool,
   name: PropTypes.string.isRequired,
   onWidgetDelete: PropTypes.func.isRequired,
   onWidgetEdit: PropTypes.func.isRequired,
-  widgetId: PropTypes.string.isRequired
+  widgetId: PropTypes.string.isRequired,
+  widgetMoveHandler: PropTypes.func.isRequired
 };
 
 export default WidgetHeader;

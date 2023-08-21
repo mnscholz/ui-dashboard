@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useParams } from 'react-router';
@@ -8,8 +8,9 @@ import { generateKiwtQueryParams } from '@k-int/stripes-kint-components';
 import { useOkapiKy, useStripes } from '@folio/stripes/core';
 import { useChunkedUsers } from '@folio/stripes-erm-components';
 
+import { useDashboardAccessStore } from '../hooks';
+
 import Loading from '../components/Loading';
-import { useDashboardAccessStore } from '../components/hooks';
 
 const DashboardsRoute = ({
   children,
@@ -103,7 +104,6 @@ const DashboardsRoute = ({
       enabled: !!dashId
     }
   );
-
   // From the dashboard access, we need to fetch user information.
   // Batch fetch all users
   const { users, isLoading: areUsersLoading } = useChunkedUsers(dashboardUsers?.map(da => da?.user?.id), { enabled: !restOfDashboardUsersQuery?.isFetching && dashboardUsers.length });
@@ -127,7 +127,7 @@ const DashboardsRoute = ({
     dashboardUsersQuery: restOfDashboardUsersQuery,
     dashboards,
     dashboard,
-    dashboardQuery: restOfDashboardQuery
+    dashboardQuery: restOfDashboardQuery,
   });
 };
 

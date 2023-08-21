@@ -1,21 +1,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useQuery } from 'react-query';
-
-import moment from 'moment';
-
-import { useOkapiKy, useStripes } from '@folio/stripes/core';
 import { Badge } from '@folio/stripes/components';
-import { recursiveUrlDecoding } from '@folio/stripes-erm-components';
 
-import pathBuilder from './simpleSearchPathBuilder';
 import columnParser from './simpleSearchColumnParser';
 import SimpleTable from '../../../SimpleTable';
-import { WidgetFooter } from '../../../Widget';
 import { ErrorBanner, errorParser } from '../../../ErrorComponents';
 
 import css from './SimpleSearch.css';
+import useSimpleSearchQuery from './useSimpleSearchQuery';
 
 const DEFAULT_ERROR_STATE = {
   isError: false,
@@ -42,55 +35,20 @@ const SimpleSearch = ({
   // This stores the WIDGET-LEVEL error state, ready to pass to the canvas if required
   const [errorState, setErrorState] = useState(DEFAULT_ERROR_STATE);
 
-  const ky = useOkapiKy();
-  // We need to pass the stripes object into the pathBuilder, so it can use that for currentUser token
-  const stripes = useStripes();
+  const { data } = useSimpleSearchQuery({
+    onCatch: async err => {
+      const parsedError = await errorParser(err, intl);
 
-  const { data, dataUpdatedAt, refetch } = useQuery(
-    // If widget.configuration changes, this should refetch
-    ['ui-dashboard', 'simpleSearch', widget.id, widget.configuration],
-    () => ky(pathBuilder(widgetDef, widgetConf, stripes)).json()
-      .catch(async err => {
-        const parsedError = await errorParser(err, intl);
-
-        setErrorState({
-          ...parsedError,
-          isError: true
-        });
-      })
-  );
+      setErrorState({
+        ...parsedError,
+        isError: true
+      });
+    },
+    widget,
+    widgetDef
+  });
 
   const simpleTableData = useMemo(() => data?.results || [], [data]);
-
-  const timestamp = dataUpdatedAt ? moment(dataUpdatedAt).format('hh:mm a') : '';
-
-  const { configurableProperties: { urlLink } = {} } = widgetConf;
-
-  const urlLinkButton = () => {
-    if (!urlLink) {
-      return null;
-    }
-
-    return (
-      <a
-        aria-label={intl.formatMessage(
-          { id: 'ui-dashboard.simpleSearch.widget.linkTextForWidget' },
-          {
-            linkText: intl.formatMessage({
-              id: 'ui-dashboard.simpleSearch.widget.linkText',
-            }),
-            widgetName: widget.name,
-          }
-        )}
-        className={css.linkText}
-        href={encodeURI(recursiveUrlDecoding(urlLink))}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <FormattedMessage id="ui-dashboard.simpleSearch.widget.linkText" />
-      </a>
-    );
-  };
 
   const renderBadge = useCallback(() => {
     return (
@@ -138,19 +96,7 @@ const SimpleSearch = ({
   }, [columns, data?.results?.length, errorState, onError, renderBadge, simpleTableData, widget.id]);
 
   return (
-    <>
-      {displayWidgetBody()}
-      <WidgetFooter
-        key={`widget-footer-${widget.id}`}
-        onRefresh={async () => {
-          await refetch();
-        }}
-        rightContent={urlLinkButton()}
-        timestamp={timestamp}
-        widgetId={widget.id}
-        widgetName={widget.name}
-      />
-    </>
+    displayWidgetBody()
   );
 };
 export default SimpleSearch;

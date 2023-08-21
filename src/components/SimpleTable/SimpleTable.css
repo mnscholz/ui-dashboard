@@ -1,8 +1,7 @@
 @import '@folio/stripes-components/lib/variables.css';
  
 .tableContainer { 
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto;
 }
 
 .table {
@@ -46,3 +45,9 @@
     word-wrap: break-word;
     text-align: start;
   }
+
+.thead {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg);
+}
