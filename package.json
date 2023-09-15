@@ -161,5 +161,8 @@
     "react-query": "^3.9.0",
     "react-router-dom": "^5.2.0",
     "zustand": "^4.0.0"
+  },
+  "resolutions": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
   }
 }
